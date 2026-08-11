@@ -1,4 +1,4 @@
--- Gospel Forum Kalender – Supabase Setup
+-- Gospel Forum Kalender – Supabase Setup V5
 -- Im Supabase Dashboard unter SQL Editor ausführen.
 
 create extension if not exists pgcrypto;
@@ -25,16 +25,20 @@ create table if not exists public.calendar_events (
 
 alter table public.calendar_events enable row level security;
 
--- Besucher dürfen nur veröffentlichte Termine lesen.
+-- Alte Policies entfernen
 drop policy if exists "Public can read published calendar events" on public.calendar_events;
-create policy "Public can read published calendar events"
+drop policy if exists "Public can read calendar requests" on public.calendar_events;
+drop policy if exists "Public can submit pending calendar events" on public.calendar_events;
+
+-- Besucher dürfen veröffentlichte Termine UND offene Anfragen sehen.
+-- rejected bleibt unsichtbar.
+create policy "Public can read calendar requests"
 on public.calendar_events
 for select
 to anon, authenticated
-using (status = 'published');
+using (status in ('published','pending'));
 
--- Besucher dürfen neue Termine ausschließlich als "pending" einreichen.
-drop policy if exists "Public can submit pending calendar events" on public.calendar_events;
+-- Besucher dürfen nur neue Anfragen mit pending-Status einreichen.
 create policy "Public can submit pending calendar events"
 on public.calendar_events
 for insert
@@ -45,8 +49,17 @@ with check (
   and created_by_email is not null
 );
 
--- Kein öffentliches Update/Delete-Policy:
--- Änderungen/Freigaben erfolgen im Supabase Table Editor oder später über einen geschützten Adminbereich.
+-- Spaltenrechte: E-Mail bleibt für öffentliche SELECTs verborgen.
+revoke all on table public.calendar_events from anon, authenticated;
+grant insert (
+  title,start_date,end_date,start_time,end_time,category,location,
+  description,created_by,created_by_email,status
+) on public.calendar_events to anon, authenticated;
+
+grant select (
+  id,title,start_date,end_date,start_time,end_time,category,location,
+  description,created_by,status,created_at,updated_at
+) on public.calendar_events to anon, authenticated;
 
 create or replace function public.set_calendar_event_updated_at()
 returns trigger
@@ -65,5 +78,6 @@ create trigger set_calendar_event_updated_at
 before update on public.calendar_events
 for each row execute function public.set_calendar_event_updated_at();
 
--- Beispiel:
--- Nach einer Prüfung im Table Editor den Status von "pending" auf "published" setzen.
+-- Freigabe:
+-- Table Editor → calendar_events → status von pending auf published setzen.
+-- rejected blendet die Anfrage öffentlich aus.

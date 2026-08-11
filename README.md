@@ -1,41 +1,25 @@
-# Gospel Forum Kalender 2027 – GitHub Pages + Supabase
+# Gospel Forum Kalender 2027 – GitHub Pages + Supabase V5
 
-## Neu in V4
-- „+ Termin eintragen“-Fenster
-- Datum von / bis
-- Uhrzeit von / bis
-- Kategorie
-- Ort
-- Beschreibung
-- Angelegt von + E-Mail
-- Speicherung in Supabase
-- sichere Freigabe: neue Termine starten als `pending`
-- veröffentlichte Supabase-Termine werden beim Laden automatisch in den Kalender übernommen
+## Wichtig
+Diese Version benötigt **keinen assets-Ordner mehr**. Logo und Bilder sind direkt in `index.html` eingebettet.
 
-## 1. Supabase einrichten
-1. Neues Supabase-Projekt anlegen.
-2. **SQL Editor** öffnen.
-3. Inhalt aus `supabase-setup.sql` einfügen und ausführen.
-4. In **Project Settings → API** die Project URL und den **Publishable Key** (oder Legacy Anon Key) kopieren.
-5. `config.js` öffnen und beide Platzhalter ersetzen.
+## Terminanfragen
+- Neue Termine werden als `pending` gespeichert.
+- `pending`-Termine erscheinen sofort öffentlich als **gestrichelte Anfrage**.
+- Freigegebene Termine (`published`) erscheinen normal.
+- Abgelehnte Termine (`rejected`) verschwinden aus der öffentlichen Ansicht.
 
-**Niemals einen `service_role`/Secret Key in GitHub oder in `config.js` eintragen.**
+## Supabase einrichten
+1. `supabase-setup.sql` im Supabase SQL Editor ausführen.
+2. In `config.js` deine Supabase Project URL und den Publishable/Anon Key eintragen.
+3. Niemals `service_role` oder einen Secret Key in GitHub eintragen.
 
-## 2. GitHub Pages
-Alle Dateien und den `assets`-Ordner in dein Repository hochladen.
+## GitHub Pages
+Du brauchst nur:
+- `index.html`
+- `config.js`
+- `supabase-setup.sql`
+- `README.md`
+- `.nojekyll`
 
-Dann:
-Settings → Pages → Deploy from a branch → `main` → `/ (root)`.
-
-## 3. Termine freigeben
-Neue Einträge werden mit `status = pending` gespeichert.
-Im Supabase Dashboard:
-Table Editor → `calendar_events` → gewünschten Eintrag öffnen → `status` auf `published` setzen.
-
-Danach erscheint der Termin auf der öffentlichen Kalenderseite.
-
-## Dateien
-- `index.html` – Kalender
-- `config.js` – Supabase Project URL + Publishable/Anon Key
-- `supabase-setup.sql` – Tabelle und RLS-Regeln
-- `assets/` – Logo und Bilder
+Die Bilder sind bereits in `index.html` enthalten.
