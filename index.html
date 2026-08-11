@@ -789,20 +789,24 @@ async function submitEventForm(ev){
   try{
     const res=await fetch(SUPABASE_URL+'/rest/v1/calendar_events',{
       method:'POST',
-      headers:apiHeaders({'Prefer':'return=representation'}),
+      headers:apiHeaders({'Prefer':'return=minimal'}),
       body:JSON.stringify(payload)
     });
     if(!res.ok){
       const msg=await res.text();
-      throw new Error(msg||('HTTP '+res.status));
+      let clean=msg;
+      try{
+        const parsed=JSON.parse(msg);
+        clean=parsed.message||parsed.details||parsed.hint||msg;
+      }catch(e){}
+      throw new Error(`Supabase ${res.status}: ${clean}`);
     }
-    const rows=await res.json();
     status.textContent='Gespeichert ✓ Dein Terminvorschlag wurde erfolgreich eingereicht.';
     ev.currentTarget.reset();
     setTimeout(closeEventForm,1600);
   }catch(err){
     console.error(err);
-    status.textContent='Speichern fehlgeschlagen. Bitte Supabase-Einstellungen und RLS prüfen.';
+    status.textContent='Speichern fehlgeschlagen: '+(err.message||'Unbekannter Supabase-Fehler.');
   }finally{
     save.disabled=false;
   }

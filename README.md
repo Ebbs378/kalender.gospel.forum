@@ -36,3 +36,12 @@ Danach kann sich dieses Konto über den Admin-Button im Kalender anmelden.
 ## GitHub
 Die Dateien aus dieser ZIP ersetzen die bisherigen Dateien im Repository.
 GitHub Pages übernimmt die Änderung nach dem Commit automatisch.
+
+
+## V8 Fix
+Der öffentliche INSERT verwendet jetzt `Prefer: return=minimal`.
+Dadurch muss Supabase nach dem Speichern nicht den vollständigen Datensatz inklusive
+der geschützten `created_by_email`-Spalte zurückgeben.
+
+Falls du V7 bereits eingerichtet hast, kannst du zusätzlich `supabase-repair-v8.sql`
+im SQL Editor ausführen.
