@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f5f7">
+<title>Gospel Forum Kalender 2027</title>
+<style>
+:root{--bg:#f5f5f7;--surface:rgba(255,255,255,.86);--solid:#fff;--text:#18181a;--muted:#727278;--line:rgba(20,20,25,.09);--accent:#0071e3;--event:#0071e3;--service:#24a148;--lead:#7c3aed;--holiday:#e5484d;--open:#d97706;--shadow:0 20px 70px rgba(0,0,0,.10);--r:24px}
+[data-theme=dark]{--bg:#08080a;--surface:rgba(28,28,30,.88);--solid:#1c1c1e;--text:#f5f5f7;--muted:#a1a1a6;--line:rgba(255,255,255,.11);--shadow:0 24px 80px rgba(0,0,0,.5)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}button,input{font:inherit}.page{max-width:1760px;margin:auto;padding:16px}.glass{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px)}
+.topbar{position:sticky;top:10px;z-index:30;border-radius:20px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{display:flex;align-items:center;gap:10px}.brand img{width:40px;height:40px;border-radius:12px;background:white;padding:3px}.brand strong{display:block}.brand small{display:block;color:var(--muted)}.views,.actions{display:flex;gap:6px;align-items:center}.views{padding:4px;border-radius:13px;background:rgba(120,120,128,.12)}.views button,.icon,.nav,.primary{border:0;border-radius:10px;padding:8px 11px;cursor:pointer;color:var(--text);background:transparent}.views button.active{background:var(--solid);box-shadow:0 2px 10px rgba(0,0,0,.1)}.icon,.nav{background:rgba(120,120,128,.12)}.primary{background:var(--accent);color:#fff;font-weight:650;text-decoration:none}
+.hero{height:290px;margin:16px 0;border-radius:30px;overflow:hidden;position:relative}.hero img{width:100%;height:100%;object-fit:cover}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.82),rgba(0,0,0,.22) 72%)}.hero-copy{position:absolute;z-index:2;left:clamp(22px,5vw,70px);top:50%;transform:translateY(-50%);color:white;max-width:700px}.hero h1{font-size:clamp(40px,5.4vw,76px);letter-spacing:-.055em;line-height:.96;margin:10px 0}.hero p{max-width:600px;color:rgba(255,255,255,.78);line-height:1.5}.eyebrow{display:inline-block;background:rgba(255,255,255,.15);padding:7px 10px;border-radius:999px;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.stat{padding:15px 17px;border-radius:18px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:26px;margin-top:3px}.stat span{font-size:12px;color:var(--muted)}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:16px;align-items:start}.calendar,.side{border-radius:var(--r);overflow:hidden}.cal-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}.cal-head h2{margin:0;font-size:26px;letter-spacing:-.035em}.cal-head small{color:var(--muted)}.cal-nav{display:flex;align-items:center;gap:5px;flex:0 0 auto}.cal-nav button{width:34px;height:34px;padding:0;border:1px solid var(--line);border-radius:10px;background:rgba(120,120,128,.10);color:var(--text);display:grid;place-items:center;font-size:19px;line-height:1;cursor:pointer;transition:background .18s ease,transform .18s ease}.cal-nav button:hover{background:rgba(120,120,128,.18)}.cal-nav button:active{transform:scale(.95)}.cal-nav .home{font-size:15px}.view{display:none}.view.active{display:block}
+.year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line)}.mini{background:var(--solid);padding:14px;min-height:235px}.mini-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.mini-head button{border:0;background:transparent;color:var(--accent);font-weight:650;cursor:pointer}.weeklabels,.minidays{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.weeklabels span{text-align:center;color:var(--muted);font-size:9px}.miniday{height:25px;border:0;background:transparent;color:var(--text);border-radius:8px;cursor:pointer;position:relative}.miniday.has:after{content:"";position:absolute;bottom:1px;left:50%;width:4px;height:4px;border-radius:50%;background:var(--accent);transform:translateX(-50%)}.miniday.selected{background:var(--accent);color:white}.miniday.holiday:not(.selected){background:rgba(229,72,77,.12);color:var(--holiday)}
+.month{padding:0 12px 12px}.monthlabels,.monthgrid{display:grid;grid-template-columns:repeat(7,1fr)}.monthlabels div{text-align:center;color:var(--muted);padding:11px 3px;font-size:12px}.cell{min-height:132px;border-top:1px solid var(--line);border-left:1px solid var(--line);padding:7px;overflow:hidden}.cell:nth-child(7n){border-right:1px solid var(--line)}.cell.out{opacity:.32}.cell.selected{outline:2px solid var(--accent);outline-offset:-2px;background:rgba(0,113,227,.04)}.num{font-size:12px;font-weight:700;margin-bottom:4px}.chip{display:block;width:100%;border:0;text-align:left;padding:5px 6px;margin:3px 0;border-radius:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;cursor:pointer;background:rgba(0,113,227,.12);color:var(--event)}.chip.gottesdienst{background:rgba(36,161,72,.12);color:var(--service)}.chip.leitung{background:rgba(124,58,237,.12);color:var(--lead)}.chip.ferien{background:rgba(229,72,77,.12);color:var(--holiday)}.chip.offen{background:rgba(217,119,6,.12);color:var(--open);border:1px dashed currentColor}
+.weekwrap{overflow:auto}.weekgrid{display:grid;grid-template-columns:62px repeat(7,minmax(120px,1fr));min-width:920px}.weekgrid>div{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.weekhead{padding:10px;text-align:center;background:var(--solid)}.hour{height:58px;padding:5px;color:var(--muted);font-size:10px}.slot{height:58px;padding:3px}.weekevent{width:100%;height:100%;border:0;border-radius:8px;background:rgba(0,113,227,.13);color:var(--accent);font-size:10px;text-align:left;padding:5px;cursor:pointer;overflow:hidden}
+.agenda{padding:18px}.agenda-toolbar{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:14px}.agenda-toolbar h3{margin:0;font-size:22px}.agenda-list{display:grid;gap:18px}.month-group h4{margin:0 0 8px;font-size:15px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.agenda-row{display:grid;grid-template-columns:76px 12px minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;border:1px solid var(--line);background:var(--solid);color:var(--text);padding:12px;border-radius:16px;text-align:left;cursor:pointer;margin:7px 0}.agenda-row:hover{border-color:rgba(0,113,227,.35);transform:translateY(-1px)}.agenda-date strong{display:block;font-size:19px}.agenda-date small,.agenda-info p{color:var(--muted);font-size:12px}.dot{width:10px;height:10px;border-radius:50%;background:var(--event)}.dot.gottesdienst{background:var(--service)}.dot.leitung{background:var(--lead)}.dot.ferien{background:var(--holiday)}.dot.offen{background:var(--open)}.agenda-info strong{display:block;font-size:15px}.agenda-info p{margin:3px 0 0}.agenda-arrow{color:var(--muted);font-size:20px}
+.side{position:sticky;top:88px;max-height:calc(100vh - 105px);display:flex;flex-direction:column}.side-cover{height:135px;position:relative}.side-cover img{width:100%;height:100%;object-fit:cover}.side-cover:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(0,0,0,.72))}.side-cover h3{position:absolute;z-index:2;left:16px;bottom:12px;color:white;margin:0;font-size:22px}.tools{padding:12px;border-bottom:1px solid var(--line)}.search{width:100%;border:1px solid var(--line);background:rgba(120,120,128,.09);color:var(--text);padding:10px 11px;border-radius:11px;outline:none}.filters{display:flex;gap:5px;overflow:auto;padding-top:8px}.filter{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:999px;padding:6px 8px;font-size:11px;white-space:nowrap;cursor:pointer}.filter.active{background:var(--text);color:var(--bg)}.eventlist{padding:7px;overflow:auto}.eventrow{display:grid;grid-template-columns:52px 1fr;gap:9px;width:100%;border:0;background:transparent;color:var(--text);text-align:left;padding:8px;border-radius:14px;cursor:pointer}.eventrow:hover,.eventrow.active{background:rgba(120,120,128,.12)}.datebox{background:rgba(0,113,227,.12);color:var(--accent);border-radius:11px;text-align:center;padding:5px}.datebox strong{display:block;font-size:18px}.datebox span{font-size:9px;text-transform:uppercase}.eventinfo strong{display:block;font-size:13px}.eventinfo small{color:var(--muted);font-size:11px;line-height:1.35}.empty{padding:25px;text-align:center;color:var(--muted)}
+.detailbar{display:none;padding:14px 16px;border-top:1px solid var(--line);background:var(--solid)}.detailbar.show{display:block}.detailbar h4{margin:0 0 5px}.detailbar p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.detail-actions{display:flex;gap:7px;margin-top:10px}.smallbtn{border:1px solid var(--line);background:transparent;color:var(--text);padding:7px 9px;border-radius:9px;cursor:pointer;font-size:11px}
+.cta{margin-top:16px;border-radius:28px;padding:58px 22px;text-align:center;background:linear-gradient(135deg,#09090b,#2b2b31);color:white}.cta h2{font-size:clamp(30px,4.5vw,58px);letter-spacing:-.05em;margin:0 0 8px}.cta p{color:#b5b5bb}.cta a{display:inline-block;background:white;color:#111;text-decoration:none;padding:12px 17px;border-radius:999px;font-weight:700;margin-top:8px}footer{text-align:center;color:var(--muted);font-size:12px;padding:24px}
+.modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.46);z-index:50;padding:16px}.modal.open{display:grid}.modalcard{width:min(560px,100%);padding:22px;border-radius:24px;position:relative}.modalcard h3{font-size:28px;margin:14px 40px 8px 0}.close{position:absolute;right:13px;top:13px}.tag{display:inline-block;padding:5px 8px;border-radius:999px;background:rgba(0,113,227,.12);color:var(--accent);font-size:11px}.meta{color:var(--muted);line-height:1.6}.modalactions{display:flex;gap:8px;margin-top:16px}
+@media(max-width:1260px){.year-grid{grid-template-columns:repeat(3,1fr)}.workspace{grid-template-columns:minmax(0,1fr) 350px}}
+@media(max-width:1000px){.workspace{grid-template-columns:1fr}.side{position:static;max-height:none}.eventlist{max-height:520px}.year-grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.page{padding:8px}.topbar{top:5px;flex-wrap:wrap}.brand small{display:none}.views{order:3;width:100%;justify-content:space-between}.views button{flex:1;padding:7px 5px;font-size:11px}.hero{height:290px}.hero h1{font-size:45px}.year-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.cell{min-height:86px;padding:4px}.chip{font-size:8px;padding:3px}.agenda-row{grid-template-columns:64px 10px 1fr}.agenda-arrow{display:none}.actions .primary{display:none}}
+@media print{.topbar,.hero,.side,.cta,.cal-nav,.actions{display:none!important}.page{max-width:none;padding:0}.workspace{display:block}.calendar{box-shadow:none;border:0}.view{display:none!important}#agendaView{display:block!important}.agenda-row{break-inside:avoid}.glass{background:white;box-shadow:none}}
+</style>
+
+<style id="gf-v3-polish">
+:root{
+  --bg:#f4f4f6;
+  --surface:rgba(255,255,255,.94);
+  --solid:#fff;
+  --text:#171719;
+  --muted:#6e6e73;
+  --line:rgba(0,0,0,.075);
+  --accent:#0a84ff;
+  --shadow:0 14px 42px rgba(0,0,0,.075);
+  --r:26px;
+}
+[data-theme=dark]{
+  --bg:#0a0a0c;
+  --surface:rgba(28,28,30,.94);
+  --solid:#1c1c1e;
+  --text:#f5f5f7;
+  --muted:#a1a1a6;
+  --line:rgba(255,255,255,.10);
+  --shadow:0 18px 48px rgba(0,0,0,.38);
+}
+body{
+  background:
+    radial-gradient(circle at 20% -10%,rgba(10,132,255,.07),transparent 30%),
+    var(--bg)!important;
+  line-height:1.45;
+  overflow-x:hidden;
+}
+.page{
+  max-width:1660px!important;
+  padding:18px 22px 34px!important;
+}
+.glass{
+  border:1px solid var(--line)!important;
+  box-shadow:var(--shadow)!important;
+}
+.topbar{
+  top:14px!important;
+  min-height:74px;
+  padding:12px 14px!important;
+  border-radius:24px!important;
+  background:var(--surface)!important;
+  gap:20px!important;
+}
+.brand{
+  min-width:285px;
+  gap:12px!important;
+}
+.brand img{
+  width:46px!important;
+  height:46px!important;
+  border-radius:50%!important;
+  padding:4px!important;
+  object-fit:contain!important;
+  background:#fff!important;
+  border:1px solid rgba(0,0,0,.06);
+}
+.brand strong{
+  font-size:16px!important;
+  letter-spacing:-.015em;
+}
+.brand small{
+  margin-top:2px;
+  font-size:12px!important;
+}
+.views{
+  gap:3px!important;
+  padding:4px!important;
+  border-radius:15px!important;
+}
+.views button{
+  padding:9px 14px!important;
+  border-radius:11px!important;
+}
+.actions{gap:7px!important}
+.actions .icon{
+  width:40px!important;
+  height:40px!important;
+  padding:0!important;
+  display:grid;
+  place-items:center;
+}
+.actions .primary{
+  padding:10px 15px!important;
+  border-radius:12px!important;
+}
+
+.hero{
+  height:390px!important;
+  margin:22px 0!important;
+  border-radius:34px!important;
+  box-shadow:0 24px 54px rgba(0,0,0,.14);
+}
+.hero img{
+  object-position:center 44%!important;
+  filter:saturate(.94) contrast(1.02);
+}
+.hero:after{
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.80) 0%,rgba(0,0,0,.55) 42%,rgba(0,0,0,.08) 80%)!important;
+}
+.hero-copy{
+  left:clamp(30px,5vw,76px)!important;
+  max-width:690px!important;
+}
+.hero h1{
+  font-size:clamp(48px,5.2vw,78px)!important;
+  letter-spacing:-.06em!important;
+  margin:13px 0 16px!important;
+}
+.hero p{
+  max-width:630px!important;
+  font-size:16px!important;
+  line-height:1.55!important;
+}
+.eyebrow{
+  padding:7px 11px!important;
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(10px);
+}
+
+.stats{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:14px!important;
+  margin-bottom:22px!important;
+}
+.stat{
+  min-height:116px;
+  padding:19px 20px!important;
+  border-radius:22px!important;
+}
+.stat strong{
+  font-size:30px!important;
+  margin:7px 0 5px!important;
+  line-height:1;
+}
+
+.workspace{
+  grid-template-columns:minmax(0,1fr) 390px!important;
+  gap:22px!important;
+}
+.calendar,.side{
+  border-radius:30px!important;
+}
+.cal-head{
+  min-height:84px;
+  padding:18px 22px!important;
+}
+.cal-head h2{
+  font-size:30px!important;
+}
+.cal-head small{
+  display:block;
+  margin-top:4px;
+}
+.cal-nav{
+  gap:7px!important;
+}
+.cal-nav button{
+  width:38px!important;
+  height:38px!important;
+  border-radius:12px!important;
+}
+
+.year-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.mini{
+  min-height:258px!important;
+  padding:18px!important;
+}
+.mini-head{
+  margin-bottom:13px!important;
+}
+.mini-head strong{
+  font-size:16px!important;
+}
+.weeklabels,.minidays{
+  gap:5px!important;
+}
+.weeklabels span{
+  font-size:10px!important;
+  margin-bottom:2px;
+}
+.miniday{
+  height:29px!important;
+  border-radius:9px!important;
+  font-size:12px!important;
+}
+.month{
+  padding:0 18px 18px!important;
+}
+.monthlabels div{
+  padding:14px 4px!important;
+}
+.cell{
+  min-height:136px!important;
+  padding:9px!important;
+}
+.chip{
+  margin:4px 0!important;
+  padding:6px 7px!important;
+  border-radius:8px!important;
+}
+.agenda{
+  padding:22px!important;
+}
+.agenda-list{
+  gap:22px!important;
+}
+.agenda-row{
+  padding:14px!important;
+  margin:8px 0!important;
+  border-radius:18px!important;
+}
+.side{
+  top:104px!important;
+  max-height:calc(100vh - 122px)!important;
+}
+.side-cover{
+  height:170px!important;
+}
+.side-cover img{
+  object-position:center 42%;
+}
+.side-cover h3{
+  left:18px!important;
+  bottom:16px!important;
+  font-size:26px!important;
+}
+.tools{
+  padding:14px!important;
+}
+.search{
+  padding:11px 12px!important;
+  border-radius:12px!important;
+}
+.filters{
+  gap:6px!important;
+  padding-top:10px!important;
+}
+.filter{
+  padding:7px 10px!important;
+}
+.eventlist{
+  padding:9px!important;
+}
+.eventrow{
+  grid-template-columns:56px 1fr!important;
+  gap:11px!important;
+  padding:10px!important;
+  border-radius:16px!important;
+}
+.datebox{
+  padding:7px 5px!important;
+  border-radius:12px!important;
+}
+.datebox strong{
+  font-size:20px!important;
+}
+.eventinfo strong{
+  font-size:13px!important;
+  line-height:1.3;
+}
+.eventinfo small{
+  display:block;
+  margin-top:3px;
+}
+.detailbar{
+  padding:16px 18px!important;
+}
+.cta{
+  margin-top:22px!important;
+  padding:64px 26px!important;
+  border-radius:32px!important;
+}
+footer{
+  padding:28px 12px!important;
+}
+
+@media(max-width:1250px){
+  .workspace{grid-template-columns:minmax(0,1fr) 340px!important}
+  .year-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .brand{min-width:auto}
+}
+@media(max-width:980px){
+  .topbar{flex-wrap:wrap!important}
+  .brand{flex:1}
+  .views{order:3;width:100%;justify-content:center}
+  .actions .primary{display:none}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .workspace{grid-template-columns:1fr!important}
+  .side{
+    position:relative!important;
+    top:auto!important;
+    max-height:none!important;
+  }
+  .eventlist{max-height:520px}
+  .year-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:620px){
+  .page{padding:10px!important}
+  .topbar{
+    top:8px!important;
+    border-radius:19px!important;
+    padding:10px!important;
+  }
+  .brand img{width:40px!important;height:40px!important}
+  .brand strong{font-size:15px!important}
+  .brand small{font-size:11px!important}
+  .actions{margin-left:auto}
+  .hero{
+    height:420px!important;
+    margin:14px 0!important;
+    border-radius:25px!important;
+  }
+  .hero:after{
+    background:linear-gradient(0deg,rgba(0,0,0,.82),rgba(0,0,0,.16) 82%)!important;
+  }
+  .hero-copy{
+    left:22px!important;
+    right:22px!important;
+    top:auto!important;
+    bottom:28px!important;
+    transform:none!important;
+  }
+  .hero h1{font-size:46px!important}
+  .hero p{font-size:14px!important}
+  .stats{grid-template-columns:1fr 1fr!important;gap:9px!important}
+  .stat{min-height:104px;padding:15px!important}
+  .stat strong{font-size:26px!important}
+  .calendar,.side{border-radius:22px!important}
+  .cal-head{padding:15px!important;min-height:auto}
+  .cal-head h2{font-size:24px!important}
+  .year-grid{grid-template-columns:1fr!important}
+  .mini{min-height:auto!important}
+  .month{padding:0 7px 8px!important}
+  .cell{min-height:92px!important;padding:5px!important}
+  .chip{font-size:9px!important;padding:4px!important}
+}
+</style>
+
+
+<style id="gf-supabase-form">
+.event-form-modal{
+  position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+  padding:20px;background:rgba(0,0,0,.38);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)
+}
+.event-form-modal.open{display:flex}
+.event-form-card{
+  width:min(760px,100%);max-height:92vh;overflow:auto;background:var(--solid);
+  border:1px solid var(--line);border-radius:28px;box-shadow:0 30px 90px rgba(0,0,0,.24);padding:24px
+}
+.event-form-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:22px}
+.event-form-head h2{margin:0 0 5px;font-size:30px;letter-spacing:-.035em}
+.event-form-head p{margin:0;color:var(--muted);font-size:14px}
+.event-form-close{
+  flex:0 0 auto;width:38px;height:38px;border:0;border-radius:50%;background:var(--bg);color:var(--text);
+  cursor:pointer;font-size:22px
+}
+.event-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.event-form-grid .wide{grid-column:1/-1}
+.event-form-field label{display:block;margin:0 0 7px;font-size:13px;font-weight:600}
+.event-form-field input,.event-form-field select,.event-form-field textarea{
+  width:100%;border:1px solid var(--line);border-radius:13px;background:var(--bg);color:var(--text);
+  padding:11px 12px;outline:none;font:inherit
+}
+.event-form-field textarea{min-height:105px;resize:vertical}
+.event-form-field input:focus,.event-form-field select:focus,.event-form-field textarea:focus{
+  border-color:var(--accent);box-shadow:0 0 0 3px rgba(10,132,255,.13)
+}
+.event-form-actions{display:flex;justify-content:flex-end;align-items:center;gap:9px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.event-form-actions button{border:0;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:600}
+.event-form-cancel{background:var(--bg);color:var(--text)}
+.event-form-save{background:var(--accent);color:white}
+.event-form-save[disabled]{opacity:.55;cursor:wait}
+.form-status{margin-right:auto;font-size:13px;color:var(--muted)}
+.pending-note{
+  margin:0 0 18px;padding:12px 14px;border-radius:14px;background:rgba(255,159,10,.10);
+  color:var(--text);font-size:13px;border:1px solid rgba(255,159,10,.18)
+}
+.live-badge{
+  display:inline-flex;align-items:center;gap:6px;margin-left:8px;padding:5px 9px;border-radius:999px;
+  font-size:11px;background:rgba(52,199,89,.11);color:#248a3d
+}
+.live-badge.offline{background:rgba(255,159,10,.11);color:#b26a00}
+@media(max-width:640px){
+  .event-form-modal{padding:10px;align-items:flex-end}
+  .event-form-card{border-radius:24px 24px 16px 16px;padding:18px;max-height:94vh}
+  .event-form-grid{grid-template-columns:1fr}
+  .event-form-grid .wide{grid-column:auto}
+  .event-form-head h2{font-size:25px}
+  .event-form-actions{position:sticky;bottom:-18px;background:var(--solid);padding-bottom:4px}
+}
+</style>
+
+</head>
+<body>
+<div class="page">
+<header class="topbar glass">
+  <div class="brand"><img src="assets/logo.png" alt="Gospel Forum Logo"><div><strong>Kalender 2027</strong><small>Gospel Forum · Baden-Württemberg</small></div></div>
+  <nav class="views" aria-label="Kalenderansicht"><button class="active" data-view="year">Jahr</button><button data-view="month">Monat</button><button data-view="week">Woche</button><button data-view="agenda">Alle Termine</button></nav>
+  <div class="actions"><button class="icon" id="printBtn" title="Drucken">⌘P</button><button class="icon" id="theme" title="Darstellung wechseln">◐</button><button class="primary" id="addEventBtn" type="button">+ Termin eintragen</button></div>
+</header>
+<section class="hero"><img src="assets/community.jpg" alt="Gemeinschaft beim Gospel Forum"><div class="hero-copy"><span class="eyebrow">Jahresplanung 2027</span><h1>Alle Termine.<br>Ein klarer Blick.</h1><p>Events, Gottesdienste, Leitertermine und Schulferien übersichtlich an einem Ort. Wähle einen Termin aus und springe direkt zum Datum im Kalender.</p></div></section>
+<section class="stats" id="stats"></section>
+<main class="workspace">
+<section class="calendar glass">
+  <div class="cal-head"><div><h2 id="title">2027</h2><small id="subtitle">Jahresansicht</small></div><div class="cal-nav" aria-label="Kalendernavigation"><button id="navPrev" title="Zurück" aria-label="Zurück">‹</button><button id="navHome" class="home" title="Jahresübersicht" aria-label="Jahresübersicht">▦</button><button id="navNext" title="Weiter" aria-label="Weiter">›</button></div></div>
+  <div id="yearView" class="view active"><div id="yearGrid" class="year-grid"></div></div>
+  <div id="monthView" class="view"><div class="month"><div class="monthlabels"><div>Mo</div><div>Di</div><div>Mi</div><div>Do</div><div>Fr</div><div>Sa</div><div>So</div></div><div id="monthGrid" class="monthgrid"></div></div></div>
+  <div id="weekView" class="view"><div class="weekwrap"><div id="weekGrid" class="weekgrid"></div></div></div>
+  <div id="agendaView" class="view"><div class="agenda"><div class="agenda-toolbar"><h3>Alle Termine 2027</h3><button class="smallbtn" id="downloadAll">Kalenderdatei herunterladen</button></div><div id="agendaList" class="agenda-list"></div></div></div>
+</section>
+<aside class="side glass">
+  <div class="side-cover"><img src="assets/stage.jpg" alt="Bühne bei einer Veranstaltung"><h3>Eventübersicht</h3></div>
+  <div class="tools"><input id="search" class="search" type="search" placeholder="Termin, Ort oder Beschreibung suchen …"><div class="filters"><button class="filter active" data-filter="alle">Alle</button><button class="filter" data-filter="event">Events</button><button class="filter" data-filter="gottesdienst">Gottesdienste</button><button class="filter" data-filter="leitung">Leiter</button><button class="filter" data-filter="ferien">Ferien</button><button class="filter" data-filter="offen">Offen</button></div></div>
+  <div id="eventList" class="eventlist"></div>
+  <div id="detailBar" class="detailbar"><h4 id="detailTitle"></h4><p id="detailText"></p><div class="detail-actions"><button class="smallbtn" id="showInCalendar">Im Kalender zeigen</button><button class="smallbtn" id="downloadOne">.ics</button></div></div>
+</aside>
+</main>
+<section class="cta"><h2>Ein Termin fehlt?</h2><p>Schick uns Datum, Uhrzeit, Ort und eine kurze Beschreibung per E-Mail.</p><a href="mailto:spirschel@gospel-forum.de?subject=Termin%20für%20Kalender%202027&body=Name%20des%20Termins%3A%0ADatum%20und%20Uhrzeit%3A%0AOrt%3A%0ABeschreibung%3A">Termin an spirschel@gospel-forum.de senden</a></section>
+<footer>Kalender 2027 · Gospel Forum · Alle Angaben ohne Gewähr</footer>
+</div>
+
+<div class="event-form-modal" id="eventFormModal" aria-hidden="true">
+  <div class="event-form-card" role="dialog" aria-modal="true" aria-labelledby="eventFormTitle">
+    <div class="event-form-head">
+      <div>
+        <h2 id="eventFormTitle">Termin eintragen</h2>
+        <p>Der Termin wird gespeichert und zunächst zur Freigabe eingereicht.</p>
+      </div>
+      <button class="event-form-close" id="eventFormClose" type="button" aria-label="Fenster schließen">×</button>
+    </div>
+    <p class="pending-note"><strong>Freigabe:</strong> Neue Einträge erhalten automatisch den Status „Zur Freigabe“. Nach der Veröffentlichung werden sie für alle Besucher im Kalender sichtbar.</p>
+    <form id="eventForm">
+      <div class="event-form-grid">
+        <div class="event-form-field wide">
+          <label for="evTitle">Eventname *</label>
+          <input id="evTitle" name="title" required maxlength="160" placeholder="z. B. Holy Spirit Night">
+        </div>
+        <div class="event-form-field">
+          <label for="evStartDate">Datum von *</label>
+          <input id="evStartDate" name="start_date" type="date" required>
+        </div>
+        <div class="event-form-field">
+          <label for="evEndDate">Datum bis</label>
+          <input id="evEndDate" name="end_date" type="date">
+        </div>
+        <div class="event-form-field">
+          <label for="evStartTime">Uhrzeit von</label>
+          <input id="evStartTime" name="start_time" type="time">
+        </div>
+        <div class="event-form-field">
+          <label for="evEndTime">Uhrzeit bis</label>
+          <input id="evEndTime" name="end_time" type="time">
+        </div>
+        <div class="event-form-field">
+          <label for="evCategory">Kategorie *</label>
+          <select id="evCategory" name="category" required>
+            <option value="event">Event</option>
+            <option value="gottesdienst">Gottesdienst</option>
+            <option value="leitung">Leiter</option>
+            <option value="ferien">Ferien</option>
+          </select>
+        </div>
+        <div class="event-form-field">
+          <label for="evLocation">Ort</label>
+          <input id="evLocation" name="location" maxlength="180" placeholder="z. B. Gospel Forum Stuttgart">
+        </div>
+        <div class="event-form-field">
+          <label for="evCreator">Angelegt von *</label>
+          <input id="evCreator" name="created_by" required maxlength="120" placeholder="Vor- und Nachname">
+        </div>
+        <div class="event-form-field">
+          <label for="evCreatorEmail">E-Mail *</label>
+          <input id="evCreatorEmail" name="created_by_email" type="email" required maxlength="180" placeholder="name@gospel-forum.de">
+        </div>
+        <div class="event-form-field wide">
+          <label for="evDescription">Beschreibung</label>
+          <textarea id="evDescription" name="description" maxlength="2000" placeholder="Infos zum Termin, Ansprechpartner, Besonderheiten …"></textarea>
+        </div>
+      </div>
+      <div class="event-form-actions">
+        <span class="form-status" id="eventFormStatus" aria-live="polite"></span>
+        <button class="event-form-cancel" id="eventFormCancel" type="button">Abbrechen</button>
+        <button class="event-form-save" id="eventFormSave" type="submit">Zur Freigabe senden</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="modal"><div class="modalcard glass"><button class="icon close" id="close">×</button><span class="tag" id="modalTag"></span><h3 id="modalTitle"></h3><div class="meta" id="modalMeta"></div><div class="modalactions"><button class="smallbtn" id="modalShow">Im Kalender zeigen</button><button class="smallbtn" id="modalIcs">Kalenderdatei</button></div></div></div>
+<script src="config.js"></script>
+<script>
+const months=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+let events=[
+['Erster Gottesdienst','2027-01-03',null,'gottesdienst','Gospel Forum',''],['Leiterzoom','2027-01-07T19:00','2027-01-07T20:00','leitung','Online','Vorgeschlagener Termin vor der Fast- und Gebetswoche.'],['Fast- und Gebetswoche','2027-01-11','2027-01-15','event','Gospel Forum',''],['Vision Sunday','2027-01-24',null,'gottesdienst','Gospel Forum',''],['ESBS-Konferenz','2027-01-26','2027-01-27','event','Noch offen','Europe Shall Be Saved.'],['Stark Pastor- und Leiterkonferenz','2027-01-27','2027-01-29','leitung','Noch offen',''],['Holy Spirit Night','2027-01-29','2027-01-30','event','Noch offen',''],['Sunday Night Neustart','2027-02-07T18:00',null,'gottesdienst','Gospel Forum','Inklusive Taufe.'],['Leiterfreizeit Schönblick – Mitarbeiter','2027-02-10','2027-02-13','leitung','Schönblick','Mitarbeiter ab 10. Februar.'],['Leiterfreizeit Schönblick – Teilnehmer','2027-02-11','2027-02-13','leitung','Schönblick','Teilnehmer 11.–13. Februar.'],['HSN Outreach','2027-02-27',null,'event','Heilbronn · Bürgerhaus','Ca. 400 Plätze; weitere Städte wie Reutlingen und Tübingen möglich.'],['Osterferien','2027-03-25','2027-03-25','ferien','Baden-Württemberg',''],['Osterferien','2027-03-30','2027-04-03','ferien','Baden-Württemberg',''],['Leaders One Day','2027-04-24',null,'leitung','Noch offen',''],['RC-Abschluss','2027-05-01',null,'offen','Noch offen','Termin im Mai noch offen; im Kalender vorläufig am 1. Mai dargestellt.'],['Kingdom Builders / Partnerprogramm','2027-05-07T19:00',null,'event','Noch offen','Freitagabend vor den Pfingstferien.'],['Pfingstferien','2027-05-18','2027-05-29','ferien','Baden-Württemberg',''],['Leiterzoom 2','2027-06-17T19:00','2027-06-17T20:00','leitung','Online',''],['Konfirmationsfeier','2027-07-11',null,'gottesdienst','Gospel Forum',''],['Internationales Sommerfest','2027-07-18',null,'event','Gospel Forum',''],['Sommerferien','2027-07-29','2027-09-11','ferien','Baden-Württemberg',''],['Sommerfestival','2027-08-29','2027-09-05','event','Noch offen','Zeitraum circa 29. August bis 5. September.'],['Leaders One Day','2027-09-18',null,'leitung','Noch offen',''],['Holy Spirit Night','2027-10-01','2027-10-02','event','Noch offen',''],['Herbstferien','2027-11-02','2027-11-06','ferien','Baden-Württemberg',''],['Mitgliederversammlung','2027-11-04T18:00','2027-11-04T21:00','leitung','Gospel Forum',''],['Leiterzoom 3','2027-11-25T19:00','2027-11-25T20:00','leitung','Online',''],['Weihnachtsferien 2027/28','2027-12-23','2028-01-08','ferien','Baden-Württemberg','']
+].map((x,id)=>({id,title:x[0],start:x[1],end:x[2],category:x[3],location:x[4],desc:x[5]}));
+let state={view:'year',month:0,weekStart:monday(new Date(2027,0,4)),filter:'alle',search:'',selected:null,selectedDate:null};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+function date(s){let[a,t]=s.split('T'),[y,m,d]=a.split('-').map(Number),v=new Date(y,m-1,d);if(t){let[h,n]=t.split(':').map(Number);v.setHours(h,n)}return v}function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}function monday(d){d=new Date(d);d.setDate(d.getDate()-(d.getDay()+6)%7);d.setHours(0,0,0,0);return d}function spans(e,d){let x=iso(d),a=e.start.split('T')[0],b=(e.end||e.start).split('T')[0];return x>=a&&x<=b}function on(d){return events.filter(e=>spans(e,d))}function label(c){return({event:'Event',ferien:'Ferien',leitung:'Leiter',gottesdienst:'Gottesdienst',offen:'Termin offen'})[c]}function fmtDate(d){return d.toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'})}function fmt(e){let a=date(e.start),b=e.end?date(e.end):null,s=fmtDate(a);if(e.start.includes('T'))s+=', '+a.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr';if(b){if(e.end.split('T')[0]!==e.start.split('T')[0])s+=' – '+fmtDate(b);if(e.end.includes('T'))s+=', '+b.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr'}return s}
+function filtered(){return events.filter(e=>(state.filter==='alle'||e.category===state.filter)&&(e.title+' '+e.desc+' '+e.location).toLowerCase().includes(state.search.toLowerCase())).sort((a,b)=>date(a.start)-date(b.start))}
+function renderStats(){let counts={all:events.length,event:0,gottesdienst:0,leitung:0};events.forEach(e=>{if(counts[e.category]!==undefined)counts[e.category]++});$('#stats').innerHTML=`<div class="stat glass"><small>Alle Einträge</small><strong>${counts.all}</strong><span>inklusive Ferien</span></div><div class="stat glass"><small>Events</small><strong>${counts.event}</strong><span>Konferenzen & besondere Termine</span></div><div class="stat glass"><small>Gottesdienste</small><strong>${counts.gottesdienst}</strong><span>Feiern & Sunday Events</span></div><div class="stat glass"><small>Leiter</small><strong>${counts.leitung}</strong><span>Zooms, Freizeiten & Meetings</span></div>`}
+function renderYear(){let r=$('#yearGrid');r.innerHTML='';months.forEach((name,m)=>{let f=new Date(2027,m,1),off=(f.getDay()+6)%7,n=new Date(2027,m+1,0).getDate(),box=document.createElement('div');box.className='mini';box.innerHTML=`<div class="mini-head"><strong>${name}</strong><button>Monat öffnen</button></div><div class="weeklabels">${['M','D','M','D','F','S','S'].map(x=>`<span>${x}</span>`).join('')}</div><div class="minidays"></div>`;box.querySelector('button').addEventListener('click',()=>{state.month=m;state.view='month';render()});let g=box.querySelector('.minidays');for(let i=0;i<off;i++)g.append(document.createElement('span'));for(let d=1;d<=n;d++){let dt=new Date(2027,m,d),ev=on(dt),b=document.createElement('button');b.className='miniday'+(ev.length?' has':'')+(ev.some(x=>x.category==='ferien')?' holiday':'')+(state.selectedDate===iso(dt)?' selected':'');b.textContent=d;b.title=ev.map(x=>x.title).join(', ');b.addEventListener('click',()=>{state.month=m;state.selectedDate=iso(dt);state.view='month';render()});g.append(b)}r.append(box)})}
+function renderMonth(){let r=$('#monthGrid');r.innerHTML='';let f=new Date(2027,state.month,1),off=(f.getDay()+6)%7,start=new Date(2027,state.month,1-off);for(let i=0;i<42;i++){let d=new Date(start);d.setDate(start.getDate()+i);let c=document.createElement('div');c.className='cell'+(d.getMonth()!==state.month?' out':'')+(state.selectedDate===iso(d)?' selected':'');c.innerHTML=`<div class="num">${d.getDate()}</div>`;on(d).slice(0,4).forEach(e=>{let b=document.createElement('button');b.className='chip '+e.category;b.textContent=e.title;b.addEventListener('click',()=>selectEvent(e.id,true));c.append(b)});if(on(d).length>4)c.insertAdjacentHTML('beforeend',`<small style="color:var(--muted)">+${on(d).length-4} weitere</small>`);c.addEventListener('click',ev=>{if(ev.target===c||ev.target.classList.contains('num')){state.selectedDate=iso(d);renderMonth()}});r.append(c)}}
+function renderWeek(){let r=$('#weekGrid');r.innerHTML='<div class="weekhead"></div>';let ds=[];for(let i=0;i<7;i++){let d=new Date(state.weekStart);d.setDate(d.getDate()+i);ds.push(d);r.insertAdjacentHTML('beforeend',`<div class="weekhead"><strong>${['So','Mo','Di','Mi','Do','Fr','Sa'][d.getDay()]}</strong><br>${d.getDate()}. ${months[d.getMonth()].slice(0,3)}</div>`)}for(let h=7;h<=22;h++){r.insertAdjacentHTML('beforeend',`<div class="hour">${String(h).padStart(2,'0')}:00</div>`);ds.forEach(d=>{let s=document.createElement('div');s.className='slot';let ev=on(d).find(e=>!e.start.includes('T')||date(e.start).getHours()===h);if(ev){let b=document.createElement('button');b.className='weekevent';b.textContent=ev.title;b.addEventListener('click',()=>selectEvent(ev.id,true));s.append(b)}r.append(s)})}}
+function renderAgenda(){let r=$('#agendaList'),arr=filtered();r.innerHTML='';months.forEach((m,mi)=>{let group=arr.filter(e=>date(e.start).getMonth()===mi);if(!group.length)return;let wrap=document.createElement('section');wrap.className='month-group';wrap.innerHTML=`<h4>${m}</h4>`;group.forEach(e=>{let d=date(e.start),b=document.createElement('button');b.className='agenda-row';b.innerHTML=`<div class="agenda-date"><strong>${String(d.getDate()).padStart(2,'0')}</strong><small>${d.toLocaleDateString('de-DE',{weekday:'short'})}</small></div><span class="dot ${e.category}"></span><div class="agenda-info"><strong>${e.title}</strong><p>${fmt(e)} · ${e.location}${e.desc?' · '+e.desc:''}</p></div><span class="agenda-arrow">›</span>`;b.addEventListener('click',()=>selectEvent(e.id,true));wrap.append(b)});r.append(wrap)});if(!r.children.length)r.innerHTML='<div class="empty">Keine Termine für diese Suche gefunden.</div>'}
+function renderList(){let arr=filtered(),r=$('#eventList');r.innerHTML='';arr.forEach(e=>{let d=date(e.start),b=document.createElement('button');b.className='eventrow'+(state.selected===e.id?' active':'');b.innerHTML=`<div class="datebox"><strong>${d.getDate()}</strong><span>${months[d.getMonth()].slice(0,3)}</span></div><div class="eventinfo"><strong>${e.title}</strong><small>${fmt(e)}<br>${e.location}</small></div>`;b.addEventListener('click',()=>selectEvent(e.id,false));r.append(b)});if(!arr.length)r.innerHTML='<div class="empty">Keine Termine gefunden.</div>';renderDetail()}
+function renderDetail(){let bar=$('#detailBar'),e=events.find(x=>x.id===state.selected);if(!e){bar.classList.remove('show');return}bar.classList.add('show');$('#detailTitle').textContent=e.title;$('#detailText').textContent=`${fmt(e)} · ${e.location}${e.desc?' · '+e.desc:''}`}
+function selectEvent(id,open=false){let e=events.find(x=>x.id===id),d=date(e.start);state.selected=id;state.selectedDate=e.start.split('T')[0];state.month=d.getMonth();state.weekStart=monday(d);renderList();renderYear();renderMonth();if(open)openEvent(id)}
+function showSelected(){let e=events.find(x=>x.id===state.selected);if(!e)return;let d=date(e.start);state.month=d.getMonth();state.weekStart=monday(d);state.selectedDate=e.start.split('T')[0];state.view='month';render();setTimeout(()=>document.querySelector('.calendar').scrollIntoView({behavior:'smooth',block:'start'}),50)}
+function openEvent(id){let e=events.find(x=>x.id===id);state.selected=id;$('#modalTag').textContent=label(e.category);$('#modalTitle').textContent=e.title;$('#modalMeta').innerHTML=`<strong>${fmt(e)}</strong><br>${e.location}${e.desc?'<br><br>'+e.desc:''}`;$('#modal').classList.add('open');renderList()}
+function icsDate(s,end=false){let d=date(s),allDay=!s.includes('T');if(allDay&&end)d.setDate(d.getDate()+1);return allDay?iso(d).replaceAll('-',''):d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'T'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')+'00'}
+function eventIcs(e){let all=!e.start.includes('T'),end=e.end||e.start;return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Gospel Forum//Kalender 2027//DE','BEGIN:VEVENT','UID:'+e.id+'-2027@gospel-forum.de','DTSTAMP:20260802T074700Z',(all?'DTSTART;VALUE=DATE:':'DTSTART:')+icsDate(e.start),(all?'DTEND;VALUE=DATE:':'DTEND:')+icsDate(end,all),'SUMMARY:'+e.title.replaceAll(',','\\,'),'LOCATION:'+e.location.replaceAll(',','\\,'),'DESCRIPTION:'+e.desc.replaceAll('\n','\\n').replaceAll(',','\\,'),'END:VEVENT','END:VCALENDAR'].join('\r\n')}
+function download(content,name){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type:'text/calendar;charset=utf-8'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}function downloadSelected(){let e=events.find(x=>x.id===state.selected);if(e)download(eventIcs(e),e.title.replace(/[^a-z0-9äöüß]+/gi,'-')+'.ics')}function downloadAll(){let body=events.map(e=>eventIcs(e).split('\r\n').slice(3,-1).join('\r\n')).join('\r\n');download('BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Gospel Forum//Kalender 2027//DE\r\n'+body+'\r\nEND:VCALENDAR','gospel-forum-kalender-2027.ics')}
+function navigate(direction){
+ if(state.view==='month'){
+  state.month=(state.month+direction+12)%12;
+  state.selectedDate=null;
+ }else if(state.view==='week'){
+  let d=new Date(state.weekStart);d.setDate(d.getDate()+direction*7);state.weekStart=d;
+ }else if(state.view==='year'){
+  state.month=direction<0?11:0;state.view='month';
+ }else{
+  state.view=direction<0?'year':'month';if(direction>0)state.month=0;
+ }
+ render();
+}
+function goHome(){state.view='year';state.month=0;state.weekStart=monday(new Date(2027,0,4));state.selectedDate=null;render()}
+function render(){['year','month','week','agenda'].forEach(v=>{$('#'+v+'View').classList.toggle('active',state.view===v);$(`[data-view="${v}"]`).classList.toggle('active',state.view===v)});$('#title').textContent=state.view==='year'?'2027':state.view==='month'?months[state.month]+' 2027':state.view==='week'?'Woche ab '+fmtDate(state.weekStart):'Terminübersicht 2027';$('#subtitle').textContent=state.view==='year'?'Jahresansicht':state.view==='month'?'Monatsansicht':state.view==='week'?'Wochenansicht':'Alle Einträge ausführlich nach Monaten';renderYear();renderMonth();renderWeek();renderAgenda();renderList()}
+
+const SUPABASE_URL=(window.GF_SUPABASE&&window.GF_SUPABASE.url||'').replace(/\/$/,'');
+const SUPABASE_KEY=(window.GF_SUPABASE&&window.GF_SUPABASE.key||'');
+const supabaseConfigured=()=>Boolean(SUPABASE_URL&&SUPABASE_KEY&&!SUPABASE_URL.includes('DEIN-PROJEKT'));
+
+function apiHeaders(extra={}){
+  return Object.assign({
+    'apikey':SUPABASE_KEY,
+    'Authorization':'Bearer '+SUPABASE_KEY,
+    'Content-Type':'application/json'
+  },extra);
+}
+function dbToEvent(row){
+  const start=row.start_time?`${row.start_date}T${String(row.start_time).slice(0,5)}`:row.start_date;
+  let end=null;
+  if(row.end_date||row.end_time){
+    const ed=row.end_date||row.start_date;
+    end=row.end_time?`${ed}T${String(row.end_time).slice(0,5)}`:ed;
+  }
+  return {
+    id:'db-'+row.id,
+    title:row.title,
+    start,
+    end,
+    category:row.category||'event',
+    location:row.location||'Noch offen',
+    desc:row.description||'',
+    createdBy:row.created_by||'',
+    remote:true
+  };
+}
+async function loadSupabaseEvents(){
+  if(!supabaseConfigured()) return;
+  try{
+    const url=SUPABASE_URL+'/rest/v1/calendar_events?select=id,title,start_date,end_date,start_time,end_time,category,location,description,created_by,status&status=eq.published&order=start_date.asc,start_time.asc';
+    const res=await fetch(url,{headers:apiHeaders({'Content-Type':'application/json'})});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const rows=await res.json();
+    const existing=new Set(events.filter(e=>e.remote).map(e=>e.id));
+    rows.map(dbToEvent).forEach(e=>{if(!existing.has(e.id))events.push(e)});
+    renderStats();render();
+  }catch(err){
+    console.warn('Supabase Termine konnten nicht geladen werden:',err);
+  }
+}
+function openEventForm(){
+  const modal=$('#eventFormModal');
+  $('#eventFormStatus').textContent=supabaseConfigured()?'':'Supabase muss noch in config.js verbunden werden.';
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  setTimeout(()=>$('#evTitle').focus(),50);
+}
+function closeEventForm(){
+  const modal=$('#eventFormModal');
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+}
+async function submitEventForm(ev){
+  ev.preventDefault();
+  const status=$('#eventFormStatus'),save=$('#eventFormSave');
+  if(!supabaseConfigured()){
+    status.textContent='Bitte zuerst Supabase URL und Publishable Key in config.js eintragen.';
+    return;
+  }
+  const fd=new FormData(ev.currentTarget);
+  const startDate=fd.get('start_date'),endDate=fd.get('end_date')||null;
+  if(endDate&&endDate<startDate){
+    status.textContent='„Datum bis“ darf nicht vor „Datum von“ liegen.';
+    return;
+  }
+  const payload={
+    title:String(fd.get('title')||'').trim(),
+    start_date:startDate,
+    end_date:endDate,
+    start_time:fd.get('start_time')||null,
+    end_time:fd.get('end_time')||null,
+    category:fd.get('category')||'event',
+    location:String(fd.get('location')||'').trim()||null,
+    description:String(fd.get('description')||'').trim()||null,
+    created_by:String(fd.get('created_by')||'').trim(),
+    created_by_email:String(fd.get('created_by_email')||'').trim(),
+    status:'pending'
+  };
+  save.disabled=true;status.textContent='Termin wird gespeichert …';
+  try{
+    const res=await fetch(SUPABASE_URL+'/rest/v1/calendar_events',{
+      method:'POST',
+      headers:apiHeaders({'Prefer':'return=representation'}),
+      body:JSON.stringify(payload)
+    });
+    if(!res.ok){
+      const msg=await res.text();
+      throw new Error(msg||('HTTP '+res.status));
+    }
+    const rows=await res.json();
+    status.textContent='Gespeichert ✓ Der Termin wartet jetzt auf Freigabe.';
+    ev.currentTarget.reset();
+    setTimeout(closeEventForm,1600);
+  }catch(err){
+    console.error(err);
+    status.textContent='Speichern fehlgeschlagen. Bitte Supabase-Einstellungen und RLS prüfen.';
+  }finally{
+    save.disabled=false;
+  }
+}
+
+$$('[data-view]').forEach(b=>b.addEventListener('click',()=>{state.view=b.dataset.view;render()}));$('#navPrev').addEventListener('click',()=>navigate(-1));$('#navHome').addEventListener('click',goHome);$('#navNext').addEventListener('click',()=>navigate(1));$('#search').addEventListener('input',e=>{state.search=e.target.value;renderList();renderAgenda()});$$('.filter').forEach(b=>b.addEventListener('click',()=>{$$('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.filter=b.dataset.filter;renderList();renderAgenda()}));$('#theme').addEventListener('click',()=>{let dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';localStorage.setItem('theme',dark?'light':'dark')});$('#printBtn').addEventListener('click',()=>window.print());$('#close').addEventListener('click',()=>$('#modal').classList.remove('open'));$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')$('#modal').classList.remove('open')});$('#showInCalendar').addEventListener('click',showSelected);$('#modalShow').addEventListener('click',()=>{$('#modal').classList.remove('open');showSelected()});$('#downloadOne').addEventListener('click',downloadSelected);$('#modalIcs').addEventListener('click',downloadSelected);$('#downloadAll').addEventListener('click',downloadAll);
+$('#addEventBtn').addEventListener('click',openEventForm);
+$('#eventFormClose').addEventListener('click',closeEventForm);
+$('#eventFormCancel').addEventListener('click',closeEventForm);
+$('#eventFormModal').addEventListener('click',e=>{if(e.target.id==='eventFormModal')closeEventForm()});
+$('#eventForm').addEventListener('submit',submitEventForm);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeEventForm()});
+
+let saved=localStorage.getItem('theme');if(saved)document.documentElement.dataset.theme=saved;else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.dataset.theme='dark';renderStats();render();loadSupabaseEvents();
+</script>
+</body>
+</html>
