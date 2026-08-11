@@ -1,25 +1,38 @@
-# Gospel Forum Kalender 2027 – GitHub Pages + Supabase V5
+# Gospel Forum Kalender 2027 – V7 Admin + Supabase
 
-## Wichtig
-Diese Version benötigt **keinen assets-Ordner mehr**. Logo und Bilder sind direkt in `index.html` eingebettet.
+## Enthalten
+- Terminvorschläge statt „Freigabe“
+- Terminvorschläge sind öffentlich gestrichelt markiert
+- Kategorien im Formular: Event, Gottesdienst, Leitertermin
+- Admins können weitere Kategorien hinzufügen
+- Orte:
+  - Gospel Forum Stuttgart - großer Saal
+  - Gospel Forum Stuttgart - kleiner Saal
+  - Andere → eigenes Textfeld
+- Admin-Login direkt im Kalender
+- Adminbereich für offene Terminvorschläge:
+  - Veröffentlichen
+  - Ablehnen
+- Fußzeile ohne „Alle Angaben ohne Gewähr“
+- Supabase-Verbindung ist in `config.js` bereits eingetragen
 
-## Terminanfragen
-- Neue Termine werden als `pending` gespeichert.
-- `pending`-Termine erscheinen sofort öffentlich als **gestrichelte Anfrage**.
-- Freigegebene Termine (`published`) erscheinen normal.
-- Abgelehnte Termine (`rejected`) verschwinden aus der öffentlichen Ansicht.
+## Wichtig: Supabase V7 Migration ausführen
+Führe den kompletten Inhalt von `supabase-setup.sql` im Supabase SQL Editor aus.
 
-## Supabase einrichten
-1. `supabase-setup.sql` im Supabase SQL Editor ausführen.
-2. In `config.js` deine Supabase Project URL und den Publishable/Anon Key eintragen.
-3. Niemals `service_role` oder einen Secret Key in GitHub eintragen.
+## Admin-Konto einrichten
+1. Supabase → Authentication → Users.
+2. `Add user` wählen und Admin-E-Mail + Passwort anlegen.
+3. Danach im SQL Editor ausführen:
 
-## GitHub Pages
-Du brauchst nur:
-- `index.html`
-- `config.js`
-- `supabase-setup.sql`
-- `README.md`
-- `.nojekyll`
+```sql
+insert into public.calendar_admins(user_id)
+select id from auth.users
+where lower(email)=lower('DEINE-ADMIN-EMAIL@gospel-forum.de')
+on conflict (user_id) do nothing;
+```
 
-Die Bilder sind bereits in `index.html` enthalten.
+Danach kann sich dieses Konto über den Admin-Button im Kalender anmelden.
+
+## GitHub
+Die Dateien aus dieser ZIP ersetzen die bisherigen Dateien im Repository.
+GitHub Pages übernimmt die Änderung nach dem Commit automatisch.
