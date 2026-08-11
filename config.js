@@ -1,4 +1,4 @@
 window.GF_SUPABASE = {
   url: "https://eilvsnmrydssqinuaiqr.supabase.co",
-  key: "HIER_DEINEN_PUBLISHABLE_KEY_EINFÜGEN"
+  key: "sb_publishable_I-wtrCnjDDqulKKEH7CTzQ_dd4oL9uO"
 };
