@@ -1,36 +1,30 @@
-# Gospel Forum Kalender 2027 – FINAL V17
+# Gospel Forum Kalender 2027 – V18 Admin Final
 
-## Fertiger Funktionsumfang
-- Kalender ist ohne Anmeldung sichtbar
-- Jahres-, Monats-, Wochen- und Terminübersicht
-- rechte Eventübersicht mit Suche
-- Kategorien können einzeln ein-/ausgeschaltet werden
-- jede Kategorie hat eine eigene Farbe
-- Terminvorschläge sind gestrichelt markiert
-- „Termin vorschlagen“-Formular mit:
-  - Datum von/bis
-  - Uhrzeit von/bis
-  - Schnellwahl häufiger Uhrzeiten
-  - Kategorie
-  - Ort: großer Saal / kleiner Saal / Andere
-  - Name, E-Mail und Beschreibung
-- kein E-Mail-Aufruf im Footer
-- Footer öffnet direkt das Vorschlagsformular
-- Admin-Login nur im Admin-Popup
-- Admin kann Terminvorschläge veröffentlichen oder ablehnen
-- Admin kann Kategorien hinzufügen
-- Admin kann Kategorie-Bezeichnungen ändern
-- Admin kann Kategorie-Farben ändern
+## Adminbereich
+Der Adminbereich besitzt jetzt genau zwei Bereiche:
 
-## GitHub Pages
-Alle Dateien aus der ZIP direkt in den Root des Repositorys hochladen.
+### Terminvorschläge
+- offene Vorschläge laden
+- veröffentlichen
+- ablehnen
+- Statusänderung erfolgt über geschützte Supabase-RPC-Funktionen
 
-## Supabase
-`supabase-setup.sql` im SQL Editor ausführen. Das Script kann auch über eine bestehende Installation laufen.
+### Konfiguration
+- vorhandene Kategorien umbenennen
+- Farbe jeder Kategorie ändern
+- Kategorie im Formular „Termin vorschlagen“ ein-/ausblenden
+- Kategorie aktivieren/deaktivieren
+- neue Kategorie mit eigener Farbe anlegen
 
-## Admin einrichten
-1. Supabase → Authentication → Users → Benutzer anlegen.
-2. Danach im SQL Editor:
+## Wichtig nach dem Upload
+Führe in Supabase einmal die Datei `supabase-admin-v18.sql` im SQL Editor aus.
+
+Die Migration löscht keine bestehenden Termine.
+
+## Admin-Benutzer
+Der Benutzer muss:
+1. unter Supabase → Authentication → Users existieren
+2. in `calendar_admins` eingetragen sein
 
 ```sql
 insert into public.calendar_admins(user_id)
@@ -39,6 +33,5 @@ where lower(email)=lower('DEINE-ADMIN-EMAIL@gospel-forum.de')
 on conflict (user_id) do nothing;
 ```
 
-## Sicherheit
-In `config.js` befindet sich ausschließlich der Publishable Key.
-Niemals einen Secret- oder service_role-Key in GitHub eintragen.
+## GitHub
+Alle Dateien aus der ZIP in den Root deines GitHub-Repositorys hochladen und die bisherigen Dateien ersetzen.

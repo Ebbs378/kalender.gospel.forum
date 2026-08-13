@@ -657,6 +657,62 @@ footer{
 }
 </style>
 
+
+<style id="gf-v18-admin">
+.admin-card-v18{width:min(980px,100%)!important;padding:0!important;overflow:hidden!important}
+.admin-card-v18 .admin-head{padding:22px 24px!important;margin:0!important;border-bottom:1px solid var(--line)}
+.admin-login{max-width:none!important;padding:24px!important}
+.admin-login-intro{display:flex;flex-direction:column;gap:4px;margin-bottom:18px}
+.admin-login-intro strong{font-size:18px}
+.admin-login-intro span{font-size:13px;color:var(--muted)}
+.admin-login-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.admin-userbar{margin:0!important;border-radius:0!important;padding:13px 20px!important;border-bottom:1px solid var(--line)}
+.admin-userbar small{display:block;color:var(--muted);margin-top:2px}
+.admin-tabs{display:flex;gap:6px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--bg)}
+.admin-tab{border:0;background:transparent;color:var(--muted);padding:9px 13px;border-radius:10px;font-weight:750;cursor:pointer}
+.admin-tab.active{background:var(--solid);color:var(--text);box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.admin-view{display:none;padding:20px;max-height:65vh;overflow:auto}
+.admin-view.active{display:block}
+.admin-view-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.admin-view-head h3{margin:0 0 4px;font-size:20px}
+.admin-view-head p{margin:0;color:var(--muted);font-size:13px}
+.proposal-list{display:grid;gap:10px}
+.proposal-card{
+  display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;
+  border:1px solid var(--line);border-left:4px dashed #ff9f0a;border-radius:16px;
+  padding:14px;background:var(--bg)
+}
+.proposal-card-main strong{display:block;font-size:14px;margin-bottom:4px}
+.proposal-card-main small{display:block;color:var(--muted);line-height:1.45}
+.proposal-card-desc{margin-top:6px;font-size:12px;color:var(--text)}
+.proposal-card-actions{display:flex;gap:7px;align-items:center}
+.admin-approve,.admin-danger{white-space:nowrap}
+.config-card{border:1px solid var(--line);border-radius:18px;padding:16px;background:var(--bg);margin-bottom:14px}
+.config-card h4{margin:0 0 13px;font-size:15px}
+.category-config-list{display:grid;gap:9px}
+.category-config-row{
+  display:grid;grid-template-columns:48px minmax(150px,1fr) auto auto;gap:9px;align-items:center;
+  padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--solid)
+}
+.category-color-input{width:42px;height:38px;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--solid)}
+.category-name-input{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);padding:9px 10px;font:inherit;font-weight:700}
+.category-toggle-wrap{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);white-space:nowrap}
+.category-config-actions{display:flex;gap:6px}
+.category-config-actions button{border:1px solid var(--line);background:var(--solid);color:var(--text);border-radius:9px;padding:8px 10px;font-size:11px;font-weight:750;cursor:pointer}
+.category-config-actions .save{background:var(--accent);border-color:var(--accent);color:#fff}
+.category-config-actions .disable{color:#b26a00}
+.new-category-grid{display:grid;grid-template-columns:1fr 110px;gap:12px}
+#newCategoryColor{width:100%;height:44px;padding:4px;border:1px solid var(--line);border-radius:11px;background:var(--solid)}
+.admin-toggle-line{display:flex;align-items:center;gap:8px;margin:12px 0;font-size:12px}
+@media(max-width:720px){
+  .admin-login-grid,.new-category-grid{grid-template-columns:1fr}
+  .proposal-card{grid-template-columns:1fr}
+  .proposal-card-actions{justify-content:flex-start}
+  .category-config-row{grid-template-columns:44px 1fr}
+  .category-toggle-wrap,.category-config-actions{grid-column:2}
+}
+</style>
+
 </head>
 <body>
 <div class="page">
@@ -687,62 +743,99 @@ footer{
 </div>
 
 
+
 <div class="admin-modal" id="adminModal" aria-hidden="true">
-  <div class="admin-card" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+  <div class="admin-card admin-card-v18" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
     <div class="admin-head">
       <div>
         <h2 id="adminTitle">Kalender Admin</h2>
-        <p>Terminvorschläge prüfen, veröffentlichen und Kategorien verwalten.</p>
+        <p>Terminvorschläge prüfen und Kalender konfigurieren.</p>
       </div>
       <button class="admin-close" id="adminClose" type="button" aria-label="Schließen">×</button>
     </div>
 
     <div id="adminLoginView" class="admin-login">
-      <div class="admin-field">
-        <label for="adminEmail">E-Mail</label>
-        <input id="adminEmail" type="email" autocomplete="username" placeholder="admin@gospel-forum.de">
+      <div class="admin-login-intro">
+        <strong>Admin anmelden</strong>
+        <span>Nur freigeschaltete Kalender-Admins haben Zugriff.</span>
       </div>
-      <div class="admin-field">
-        <label for="adminPassword">Passwort</label>
-        <input id="adminPassword" type="password" autocomplete="current-password">
+      <div class="admin-login-grid">
+        <div class="admin-field">
+          <label for="adminEmail">E-Mail-Adresse</label>
+          <input id="adminEmail" type="email" autocomplete="username" placeholder="name@gospel-forum.de">
+        </div>
+        <div class="admin-field">
+          <label for="adminPassword">Passwort</label>
+          <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Passwort">
+        </div>
       </div>
       <div class="admin-actions">
         <button class="admin-primary" id="adminLoginBtn" type="button">Anmelden</button>
       </div>
-      <div class="admin-status" id="adminLoginStatus">Nur freigeschaltete Admin-Konten können sich anmelden.</div>
+      <div class="admin-status" id="adminLoginStatus">Noch nicht angemeldet.</div>
     </div>
 
     <div id="adminPanel" class="admin-hidden">
       <div class="admin-userbar">
-        <div><strong id="adminUserName">Admin</strong><br><small style="color:var(--muted)">Angemeldet</small></div>
+        <div>
+          <strong id="adminUserName">Admin</strong>
+          <small>Kalenderverwaltung</small>
+        </div>
         <button class="admin-secondary" id="adminLogoutBtn" type="button">Abmelden</button>
       </div>
-      <div class="admin-grid">
-        <section class="admin-section">
-          <h3>Terminvorschläge</h3>
-          <div class="proposal-list" id="proposalList"></div>
-          <div class="admin-status" id="proposalStatus"></div>
-        </section>
-        <section class="admin-section">
-          <h3>Kategorien</h3>
-          <p class="admin-help">Bezeichnung, Farbe und Verfügbarkeit im Vorschlagsformular verwalten.</p>
-          <div class="category-list" id="categoryAdminList"></div>
-          <div class="admin-divider"></div>
-          <div class="admin-field">
-            <label for="newCategoryName">Neue Kategorie</label>
-            <input id="newCategoryName" maxlength="60" placeholder="z. B. Jugend">
+
+      <nav class="admin-tabs" aria-label="Admin Navigation">
+        <button class="admin-tab active" type="button" data-admin-view="proposals">Terminvorschläge</button>
+        <button class="admin-tab" type="button" data-admin-view="configuration">Konfiguration</button>
+      </nav>
+
+      <section class="admin-view active" id="adminViewProposals">
+        <div class="admin-view-head">
+          <div>
+            <h3>Terminvorschläge</h3>
+            <p>Offene Vorschläge prüfen und anschließend veröffentlichen oder ablehnen.</p>
           </div>
-          <div class="admin-field">
-            <label for="newCategoryColor">Farbe</label>
-            <input id="newCategoryColor" type="color" value="#34C759">
+          <button class="admin-secondary" id="refreshProposalsBtn" type="button">Neu laden</button>
+        </div>
+        <div class="proposal-list" id="proposalList"></div>
+        <div class="admin-status" id="proposalStatus"></div>
+      </section>
+
+      <section class="admin-view" id="adminViewConfiguration">
+        <div class="admin-view-head">
+          <div>
+            <h3>Konfiguration</h3>
+            <p>Kategorien, Farben und Auswahl im Vorschlagsformular verwalten.</p>
           </div>
-          <label class="admin-check"><input id="newCategoryProposal" type="checkbox" checked> Im Formular „Termin vorschlagen“ auswählbar</label>
+        </div>
+
+        <div class="config-card">
+          <h4>Vorhandene Kategorien</h4>
+          <div class="category-config-list" id="categoryAdminList"></div>
+          <div class="admin-status" id="categoryStatus"></div>
+        </div>
+
+        <div class="config-card">
+          <h4>Neue Kategorie</h4>
+          <div class="new-category-grid">
+            <div class="admin-field">
+              <label for="newCategoryName">Bezeichnung</label>
+              <input id="newCategoryName" maxlength="60" placeholder="z. B. Jugend">
+            </div>
+            <div class="admin-field">
+              <label for="newCategoryColor">Farbe</label>
+              <input id="newCategoryColor" type="color" value="#34C759">
+            </div>
+          </div>
+          <label class="admin-toggle-line">
+            <input id="newCategoryProposal" type="checkbox" checked>
+            <span>Im Formular „Termin vorschlagen“ auswählbar</span>
+          </label>
           <div class="admin-actions">
             <button class="admin-primary" id="addCategoryBtn" type="button">Kategorie hinzufügen</button>
           </div>
-          <div class="admin-status" id="categoryStatus"></div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   </div>
 </div>
@@ -1015,13 +1108,15 @@ async function submitEventForm(ev){
 }
 
 
+
 let adminSession=null;
 let dbCategories=[];
 
 function slugify(v){
   return String(v||'').toLowerCase().trim()
     .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);
+    .replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'').slice(0,40);
 }
 function userHeaders(token,extra={}){
   return Object.assign({
@@ -1029,6 +1124,22 @@ function userHeaders(token,extra={}){
     'Authorization':'Bearer '+token,
     'Content-Type':'application/json'
   },extra);
+}
+async function rpcAdmin(name,payload={}){
+  if(!adminSession?.access_token) throw new Error('Nicht angemeldet.');
+  const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/'+name,{
+    method:'POST',
+    headers:userHeaders(adminSession.access_token),
+    body:JSON.stringify(payload)
+  });
+  const raw=await res.text();
+  let data=null;
+  try{data=raw?JSON.parse(raw):null}catch(e){data=raw}
+  if(!res.ok){
+    const message=(data&&data.message)||raw||('HTTP '+res.status);
+    throw new Error(message);
+  }
+  return data;
 }
 async function loadCategories(){
   if(!supabaseConfigured()) return;
@@ -1038,15 +1149,27 @@ async function loadCategories(){
     });
     if(!res.ok) throw new Error(await res.text());
     dbCategories=await res.json();
-    dbCategories.forEach(c=>{categoryNames[c.slug]=c.name;if(c.color)categoryColors[c.slug]=c.color;if(!activeCategories.has(c.slug))activeCategories.add(c.slug)});renderCategoryFilters();
+    dbCategories.forEach(c=>{
+      categoryNames[c.slug]=c.name;
+      if(c.color)categoryColors[c.slug]=c.color;
+      if(!activeCategories.has(c.slug))activeCategories.add(c.slug);
+    });
+    renderCategoryFilters();
     const select=$('#evCategory');
     if(select){
       const allowed=dbCategories.filter(c=>c.allow_proposals);
       if(allowed.length){
-        select.innerHTML=allowed.map(c=>`<option value="${c.slug}">${c.name}</option>`).join('');
+        select.innerHTML=allowed.map(c=>`<option value="${c.slug}">${escapeAdmin(c.name)}</option>`).join('');
       }
     }
-  }catch(err){ console.warn('Kategorien konnten nicht geladen werden',err); }
+  }catch(err){
+    console.warn('Kategorien konnten nicht geladen werden',err);
+  }
+}
+function escapeAdmin(v){
+  return String(v??'').replace(/[&<>"']/g,m=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
 }
 function openAdmin(){
   $('#adminModal').classList.add('open');
@@ -1057,11 +1180,22 @@ function closeAdmin(){
   $('#adminModal').classList.remove('open');
   $('#adminModal').setAttribute('aria-hidden','true');
 }
+function showAdminView(name){
+  $$('.admin-tab').forEach(b=>b.classList.toggle('active',b.dataset.adminView===name));
+  $$('.admin-view').forEach(v=>v.classList.remove('active'));
+  const target=name==='configuration'?'#adminViewConfiguration':'#adminViewProposals';
+  $(target).classList.add('active');
+  if(name==='configuration')loadCategoriesAdmin();
+  else loadPendingAdmin();
+}
 async function adminLogin(){
   const email=$('#adminEmail').value.trim();
   const password=$('#adminPassword').value;
   const status=$('#adminLoginStatus');
-  if(!email||!password){status.textContent='Bitte E-Mail und Passwort eingeben.';return}
+  if(!email||!password){
+    status.textContent='Bitte E-Mail-Adresse und Passwort eingeben.';
+    return;
+  }
   status.textContent='Anmeldung läuft …';
   try{
     const res=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{
@@ -1069,16 +1203,17 @@ async function adminLogin(){
       headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
       body:JSON.stringify({email,password})
     });
-    if(!res.ok) throw new Error('E-Mail oder Passwort nicht korrekt.');
-    const session=await res.json();
-    const uid=session.user&&session.user.id;
-    const check=await fetch(SUPABASE_URL+`/rest/v1/calendar_admins?user_id=eq.${encodeURIComponent(uid)}&select=user_id`,{
-      headers:userHeaders(session.access_token)
-    });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok||!data.access_token)throw new Error(data.error_description||data.msg||'E-Mail oder Passwort nicht korrekt.');
+    const uid=data.user&&data.user.id;
+    const check=await fetch(
+      SUPABASE_URL+`/rest/v1/calendar_admins?user_id=eq.${encodeURIComponent(uid)}&select=user_id`,
+      {headers:userHeaders(data.access_token)}
+    );
     const rows=check.ok?await check.json():[];
-    if(!rows.length) throw new Error('Dieses Konto ist nicht als Kalender-Admin freigeschaltet.');
-    adminSession=session;
-    sessionStorage.setItem('gf_admin_session',JSON.stringify(session));
+    if(!rows.length)throw new Error('Dieses Konto ist nicht als Kalender-Admin freigeschaltet.');
+    adminSession=data;
+    sessionStorage.setItem('gf_admin_session',JSON.stringify(data));
     showAdminPanel();
   }catch(err){
     status.textContent=err.message||'Anmeldung fehlgeschlagen.';
@@ -1087,9 +1222,9 @@ async function adminLogin(){
 function restoreAdminSession(){
   try{
     const raw=sessionStorage.getItem('gf_admin_session');
-    if(raw) adminSession=JSON.parse(raw);
-  }catch(e){}
-  if(adminSession&&adminSession.access_token) showAdminPanel();
+    if(raw)adminSession=JSON.parse(raw);
+  }catch(e){adminSession=null}
+  if(adminSession?.access_token)showAdminPanel();
   else{
     $('#adminLoginView').classList.remove('admin-hidden');
     $('#adminPanel').classList.add('admin-hidden');
@@ -1107,103 +1242,151 @@ async function showAdminPanel(){
   $('#adminLoginView').classList.add('admin-hidden');
   $('#adminPanel').classList.remove('admin-hidden');
   $('#adminUserName').textContent=(adminSession.user&&adminSession.user.email)||'Admin';
-  await Promise.all([loadPendingAdmin(),loadCategoriesAdmin()]);
+  showAdminView('proposals');
 }
 async function loadPendingAdmin(){
   const list=$('#proposalList'),status=$('#proposalStatus');
-  list.innerHTML='';status.textContent='Lade Vorschläge …';
+  list.innerHTML='<div class="admin-status">Terminvorschläge werden geladen …</div>';
+  status.textContent='';
   try{
-    const res=await fetch(SUPABASE_URL+'/rest/v1/calendar_events?select=id,title,start_date,end_date,start_time,end_time,location,category,created_by,description,status&status=eq.pending&order=start_date.asc',{
-      headers:userHeaders(adminSession.access_token)
-    });
-    if(!res.ok) throw new Error(await res.text());
-    const rows=await res.json();
-    status.textContent=rows.length?`${rows.length} offene Vorschläge`:'Keine offenen Terminvorschläge.';
+    const rows=await rpcAdmin('admin_list_pending_events',{});
+    list.innerHTML='';
+    if(!rows||!rows.length){
+      list.innerHTML='<div class="admin-status">Aktuell gibt es keine offenen Terminvorschläge.</div>';
+      return;
+    }
     rows.forEach(row=>{
-      const el=document.createElement('div');el.className='proposal-card';
+      const el=document.createElement('div');
+      el.className='proposal-card';
       const when=[row.start_date,row.start_time?String(row.start_time).slice(0,5)+' Uhr':''].filter(Boolean).join(' · ');
-      el.innerHTML=`<strong>${row.title}</strong><small>${when} · ${row.location||'Ort offen'} · ${label(row.category)}<br>Eingereicht von ${row.created_by||'–'}</small>
-        <div class="admin-actions">
-          <button class="admin-approve" type="button" data-approve="${row.id}">Veröffentlichen</button>
-          <button class="admin-danger" type="button" data-reject="${row.id}">Ablehnen</button>
+      el.innerHTML=`<div class="proposal-card-main">
+        <strong>${escapeAdmin(row.title)}</strong>
+        <small>${escapeAdmin(when)}${row.end_date&&row.end_date!==row.start_date?' – '+escapeAdmin(row.end_date):''}<br>
+        ${escapeAdmin(row.location||'Ort offen')} · ${escapeAdmin(label(row.category))}<br>
+        Eingereicht von ${escapeAdmin(row.created_by||'–')}</small>
+        ${row.description?`<div class="proposal-card-desc">${escapeAdmin(row.description)}</div>`:''}
+      </div>
+      <div class="proposal-card-actions">
+        <button class="admin-approve" type="button" data-approve="${row.id}">Veröffentlichen</button>
+        <button class="admin-danger" type="button" data-reject="${row.id}">Ablehnen</button>
+      </div>`;
+      list.append(el);
+    });
+    list.querySelectorAll('[data-approve]').forEach(b=>b.addEventListener('click',()=>setProposalStatus(b.dataset.approve,'published',b)));
+    list.querySelectorAll('[data-reject]').forEach(b=>b.addEventListener('click',()=>setProposalStatus(b.dataset.reject,'rejected',b)));
+  }catch(err){
+    list.innerHTML='';
+    status.textContent='Vorschläge konnten nicht geladen werden: '+err.message;
+  }
+}
+async function setProposalStatus(id,statusValue,button){
+  const status=$('#proposalStatus');
+  const original=button.textContent;
+  button.disabled=true;
+  button.textContent=statusValue==='published'?'Wird veröffentlicht …':'Wird abgelehnt …';
+  try{
+    await rpcAdmin('admin_set_event_status',{event_id:id,new_status:statusValue});
+    status.textContent=statusValue==='published'?'Terminvorschlag veröffentlicht ✓':'Terminvorschlag abgelehnt ✓';
+    events=events.filter(e=>e.id!=='db-'+id);
+    await loadSupabaseEvents();
+    await loadPendingAdmin();
+  }catch(err){
+    status.textContent='Änderung fehlgeschlagen: '+err.message;
+  }finally{
+    button.disabled=false;
+    button.textContent=original;
+  }
+}
+async function loadCategoriesAdmin(){
+  const list=$('#categoryAdminList'),status=$('#categoryStatus');
+  list.innerHTML='<div class="admin-status">Konfiguration wird geladen …</div>';
+  status.textContent='';
+  try{
+    const rows=await rpcAdmin('admin_list_categories',{});
+    list.innerHTML='';
+    if(!rows||!rows.length){
+      list.innerHTML='<div class="admin-status">Keine Kategorien vorhanden.</div>';
+      return;
+    }
+    rows.forEach(c=>{
+      const el=document.createElement('div');
+      el.className='category-config-row';
+      el.innerHTML=`
+        <input class="category-color-input" type="color" value="${escapeAdmin(c.color||'#0A84FF')}" data-cat-color="${escapeAdmin(c.slug)}" aria-label="Farbe ${escapeAdmin(c.name)}">
+        <input class="category-name-input" type="text" value="${escapeAdmin(c.name)}" data-cat-name="${escapeAdmin(c.slug)}" aria-label="Bezeichnung ${escapeAdmin(c.name)}">
+        <label class="category-toggle-wrap">
+          <input type="checkbox" data-cat-proposal="${escapeAdmin(c.slug)}" ${c.allow_proposals?'checked':''}>
+          Vorschlag
+        </label>
+        <div class="category-config-actions">
+          <button class="save" type="button" data-cat-save="${escapeAdmin(c.slug)}">Speichern</button>
+          <button class="disable" type="button" data-cat-toggle-active="${escapeAdmin(c.slug)}" data-active="${c.active?'1':'0'}">${c.active?'Deaktivieren':'Aktivieren'}</button>
         </div>`;
       list.append(el);
     });
-    list.querySelectorAll('[data-approve]').forEach(b=>b.addEventListener('click',()=>setProposalStatus(b.dataset.approve,'published')));
-    list.querySelectorAll('[data-reject]').forEach(b=>b.addEventListener('click',()=>setProposalStatus(b.dataset.reject,'rejected')));
-  }catch(err){status.textContent='Vorschläge konnten nicht geladen werden.'}
+    list.querySelectorAll('[data-cat-save]').forEach(b=>b.addEventListener('click',()=>saveCategory(b.dataset.catSave,b)));
+    list.querySelectorAll('[data-cat-toggle-active]').forEach(b=>b.addEventListener('click',()=>toggleCategoryActive(b.dataset.catToggleActive,b.dataset.active!=='1',b)));
+  }catch(err){
+    list.innerHTML='';
+    status.textContent='Kategorien konnten nicht geladen werden: '+err.message;
+  }
 }
-async function setProposalStatus(id,statusValue){
-  const res=await fetch(SUPABASE_URL+`/rest/v1/calendar_events?id=eq.${encodeURIComponent(id)}`,{
-    method:'PATCH',
-    headers:userHeaders(adminSession.access_token,{'Prefer':'return=minimal'}),
-    body:JSON.stringify({status:statusValue})
-  });
-  if(!res.ok){$('#proposalStatus').textContent='Änderung fehlgeschlagen.';return}
-  events=events.filter(e=>e.id!=='db-'+id);
-  await loadSupabaseEvents();
-  await loadPendingAdmin();
-}
-async function loadCategoriesAdmin(){
-  await loadCategories();
-  const list=$('#categoryAdminList');
-  list.innerHTML='';
-  dbCategories.forEach(c=>{
-    const el=document.createElement('div');el.className='category-admin-row';
-    el.innerHTML=`<input type="color" value="${c.color||categoryColor(c.slug)}" data-cat-color="${c.slug}" aria-label="Farbe ${c.name}">
-      <div><input type="text" value="${String(c.name).replaceAll('&','&amp;').replaceAll('"','&quot;')}" data-cat-name="${c.slug}" aria-label="Bezeichnung ${c.name}"><small style="display:block;color:var(--muted);margin-top:4px">${c.allow_proposals?'im Vorschlagsformular sichtbar':'nicht im Vorschlagsformular'}</small></div>
-      <div class="category-admin-actions"><button class="save" type="button" data-cat-save="${c.slug}">Speichern</button></div>`;
-    list.append(el);
-  });
-  list.querySelectorAll('[data-cat-save]').forEach(b=>b.addEventListener('click',()=>saveCategory(b.dataset.catSave)));
-}
-async function saveCategory(slug){
+async function saveCategory(slug,button){
   const status=$('#categoryStatus');
-  const nameEl=document.querySelector(`[data-cat-name="${slug}"]`);
-  const colorEl=document.querySelector(`[data-cat-color="${slug}"]`);
-  const name=(nameEl?.value||'').trim(),color=colorEl?.value||'#0A84FF';
+  const name=(document.querySelector(`[data-cat-name="${CSS.escape(slug)}"]`)?.value||'').trim();
+  const color=document.querySelector(`[data-cat-color="${CSS.escape(slug)}"]`)?.value||'#0A84FF';
+  const allow=document.querySelector(`[data-cat-proposal="${CSS.escape(slug)}"]`)?.checked??true;
   if(!name){status.textContent='Bitte eine Bezeichnung eintragen.';return}
-  status.textContent='Kategorie wird gespeichert …';
-  const res=await fetch(SUPABASE_URL+`/rest/v1/calendar_categories?slug=eq.${encodeURIComponent(slug)}`,{
-    method:'PATCH',
-    headers:userHeaders(adminSession.access_token,{'Prefer':'return=minimal'}),
-    body:JSON.stringify({name,color})
-  });
-  if(!res.ok){status.textContent='Kategorie konnte nicht gespeichert werden.';return}
-  categoryNames[slug]=name;categoryColors[slug]=color;
-  status.textContent='Kategorie gespeichert ✓';
-  await loadCategories();
-  render();
+  button.disabled=true;
+  try{
+    await rpcAdmin('admin_save_category',{category_slug:slug,category_name:name,category_color:color,proposal_enabled:allow});
+    status.textContent='Kategorie gespeichert ✓';
+    categoryNames[slug]=name;categoryColors[slug]=color;
+    await loadCategories();
+    render();
+  }catch(err){
+    status.textContent='Kategorie konnte nicht gespeichert werden: '+err.message;
+  }finally{button.disabled=false}
+}
+async function toggleCategoryActive(slug,newActive,button){
+  const status=$('#categoryStatus');
+  button.disabled=true;
+  try{
+    await rpcAdmin('admin_set_category_active',{category_slug:slug,new_active:newActive});
+    status.textContent=newActive?'Kategorie aktiviert ✓':'Kategorie deaktiviert ✓';
+    await loadCategoriesAdmin();
+    await loadCategories();
+    render();
+  }catch(err){
+    status.textContent='Status konnte nicht geändert werden: '+err.message;
+  }finally{button.disabled=false}
 }
 async function addCategory(){
   const input=$('#newCategoryName'),colorInput=$('#newCategoryColor'),proposalInput=$('#newCategoryProposal'),status=$('#categoryStatus');
   const name=input.value.trim(),slug=slugify(name),color=colorInput.value||'#34C759';
   if(!name||!slug){status.textContent='Bitte einen Kategorienamen eingeben.';return}
   status.textContent='Kategorie wird gespeichert …';
-  const res=await fetch(SUPABASE_URL+'/rest/v1/calendar_categories',{
-    method:'POST',
-    headers:userHeaders(adminSession.access_token,{'Prefer':'return=minimal'}),
-    body:JSON.stringify({slug,name,color,allow_proposals:proposalInput.checked,active:true,sort_order:100})
-  });
-  if(!res.ok){
-    status.textContent='Kategorie konnte nicht angelegt werden. Eventuell existiert sie bereits.';
-    return;
+  try{
+    await rpcAdmin('admin_create_category',{category_slug:slug,category_name:name,category_color:color,proposal_enabled:proposalInput.checked});
+    input.value='';colorInput.value='#34C759';proposalInput.checked=true;
+    status.textContent='Kategorie hinzugefügt ✓';
+    await loadCategoriesAdmin();
+    await loadCategories();
+    render();
+  }catch(err){
+    status.textContent='Kategorie konnte nicht angelegt werden: '+err.message;
   }
-  input.value='';colorInput.value='#34C759';proposalInput.checked=true;status.textContent='Kategorie hinzugefügt ✓';
-  await loadCategoriesAdmin();
-  renderCategoryFilters();
 }
-
 $$('[data-view]').forEach(b=>b.addEventListener('click',()=>{state.view=b.dataset.view;render()}));$('#navPrev').addEventListener('click',()=>navigate(-1));$('#navHome').addEventListener('click',goHome);$('#navNext').addEventListener('click',()=>navigate(1));$('#search').addEventListener('input',e=>{state.search=e.target.value;renderList();renderAgenda()});$('#theme').addEventListener('click',()=>{let dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';localStorage.setItem('theme',dark?'light':'dark')});$('#printBtn').addEventListener('click',()=>window.print());$('#close').addEventListener('click',()=>$('#modal').classList.remove('open'));$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')$('#modal').classList.remove('open')});$('#showInCalendar').addEventListener('click',showSelected);$('#modalShow').addEventListener('click',()=>{$('#modal').classList.remove('open');showSelected()});$('#downloadOne').addEventListener('click',downloadSelected);$('#modalIcs').addEventListener('click',downloadSelected);$('#downloadAll').addEventListener('click',downloadAll);
 $('#addEventBtn').addEventListener('click',openEventForm);$('#footerProposalBtn').addEventListener('click',openEventForm);$$('.quick-time').forEach(b=>b.addEventListener('click',()=>{let input=document.getElementById(b.dataset.timeTarget);if(input)input.value=b.dataset.time}));
 
-$('#adminBtn').addEventListener('click',openAdmin);
-$('#adminClose').addEventListener('click',closeAdmin);
+
+
 $('#adminModal').addEventListener('click',e=>{if(e.target.id==='adminModal')closeAdmin()});
-$('#adminLoginBtn').addEventListener('click',adminLogin);
+
 $('#adminPassword').addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin()});
-$('#adminLogoutBtn').addEventListener('click',adminLogout);
-$('#addCategoryBtn').addEventListener('click',addCategory);
+
+
 
 const locationSelect=$('#evLocationSelect');
 const otherLocationWrap=$('#evOtherLocationWrap');
@@ -1221,6 +1404,17 @@ $('#eventFormCancel').addEventListener('click',closeEventForm);
 $('#eventFormModal').addEventListener('click',e=>{if(e.target.id==='eventFormModal')closeEventForm()});
 $('#eventForm').addEventListener('submit',submitEventForm);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeEventForm()});
+
+
+$('#adminBtn').addEventListener('click',openAdmin);
+$('#adminClose').addEventListener('click',closeAdmin);
+$('#adminModal').addEventListener('click',e=>{if(e.target.id==='adminModal')closeAdmin()});
+$('#adminLoginBtn').addEventListener('click',adminLogin);
+$('#adminPassword').addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin()});
+$('#adminLogoutBtn').addEventListener('click',adminLogout);
+$('#refreshProposalsBtn').addEventListener('click',loadPendingAdmin);
+$('#addCategoryBtn').addEventListener('click',addCategory);
+$$('[data-admin-view]').forEach(b=>b.addEventListener('click',()=>showAdminView(b.dataset.adminView)));
 
 let saved=localStorage.getItem('theme');if(saved)document.documentElement.dataset.theme=saved;else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.dataset.theme='dark';renderCategoryFilters();renderStats();render();loadCategories();loadSupabaseEvents();
 </script>
