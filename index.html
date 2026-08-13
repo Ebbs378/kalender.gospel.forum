@@ -751,554 +751,55 @@ body > input[type="email"]{
 }
 </style>
 
+
+<style id="gf-v16-open-calendar">
+/* Kalender ist immer öffentlich sichtbar */
+#internalGate,.internal-gate,.login-gate,.auth-gate{display:none!important}
+body > form:not(#eventForm){display:none!important}
+
+/* Alte nackte Loginfelder außerhalb des Admin-Modals verstecken */
+body > input[type="email"],
+body > input[type="password"],
+body > label{display:none!important}
+
+/* Admin bleibt optional über eigenen Button erreichbar */
+#adminShell{display:none!important}
+#adminShell.open{display:flex!important}
+
+/* Navigation nur mit Text */
+.cal-nav .icon,
+.actions .icon,
+.nav-arrows .icon{
+  width:auto!important;
+  min-width:84px!important;
+  padding:0 14px!important;
+}
+</style>
+
+
+<style id="gf-v16-category-admin">
+.category-admin-row{
+  grid-template-columns:42px minmax(150px,1fr) auto!important;
+}
+.category-name-input{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:var(--solid);
+  color:var(--text);
+  padding:9px 10px;
+  font:inherit;
+  font-weight:700;
+}
+</style>
+
 </head>
 <body>
 <button type="button" class="admin-entry" id="openAdmin">Admin anmelden</button>
 
 
-      <div class="admin-status" id="adminLoginStatus">Nur freigeschaltete Admin-Konten können sich anmelden.</div>
-    </div>
-
-    <div id="adminPanel" class="admin-hidden">
-      <div class="admin-userbar">
-        <div><strong id="adminUserName">Admin</strong><br><small style="color:var(--muted)">Angemeldet</small></div>
-        <button class="admin-secondary" id="adminLogoutBtn" type="button">Abmelden</button>
-      </div>
-      <div class="admin-grid">
-        <section class="admin-section">
-          <h3>Terminvorschläge</h3>
-          <div class="proposal-list" id="proposalList"></div>
-          <div class="admin-status" id="proposalStatus"></div>
-        </section>
-        <section class="admin-section">
-          <h3>Kategorien</h3>
-          <div class="admin-field">
-            <label for="newCategoryName">Neue Kategorie</label>
-            <input id="newCategoryName" maxlength="60" placeholder="z. B. Jugend">
-          </div>
-          <div class="admin-actions">
-            <button class="admin-primary" id="addCategoryBtn" type="button">Kategorie hinzufügen</button>
-          </div>
-          <div class="category-list" id="categoryAdminList"></div>
-          <div class="admin-status" id="categoryStatus"></div>
-        </section>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="event-form-modal" id="eventFormModal" aria-hidden="true">
-  <div class="event-form-card" role="dialog" aria-modal="true" aria-labelledby="eventFormTitle">
-    <div class="event-form-head">
-      <div>
-        <h2 id="eventFormTitle">Termin eintragen</h2>
-        <p>Der Termin wird gespeichert und zunächst als Vorschlag eingereicht.</p>
-      </div>
-      <button class="event-form-close" id="eventFormClose" type="button" aria-label="Fenster schließen">×</button>
-    </div>
-    <p class="pending-note"><strong>Vorschlag:</strong> Neue Einträge erhalten automatisch den Status „Terminvorschlag“. Nach Prüfung werden sie im internen Kalender veröffentlicht.</p>
-    <form id="eventForm">
-      <div class="event-form-grid">
-        <div class="form-section-title">Allgemein</div>
-        <div class="event-form-field wide">
-          <label for="evTitle">Eventname *</label>
-          <input id="evTitle" name="title" required maxlength="160" placeholder="z. B. Holy Spirit Night">
-        </div>
-        <div class="form-section-title">Datum & Uhrzeit</div>
-        <div class="event-form-field">
-          <label for="evStartDate">Datum von *</label>
-          <input id="evStartDate" name="start_date" type="date" required>
-        </div>
-        <div class="event-form-field">
-          <label for="evEndDate">Datum bis</label>
-          <input id="evEndDate" name="end_date" type="date">
-        </div>
-        <div class="event-form-field">
-          <label for="evStartTime">Uhrzeit von</label>
-          <input id="evStartTime" name="start_time" type="time">
-<div class="quick-time-row"><button class="quick-time" type="button" data-time-target="evStartTime" data-time="09:00">09:00</button><button class="quick-time" type="button" data-time-target="evStartTime" data-time="10:00">10:00</button><button class="quick-time" type="button" data-time-target="evStartTime" data-time="18:00">18:00</button><button class="quick-time" type="button" data-time-target="evStartTime" data-time="19:00">19:00</button></div></div>
-        <div class="event-form-field">
-          <label for="evEndTime">Uhrzeit bis</label>
-          <input id="evEndTime" name="end_time" type="time">
-<div class="quick-time-row"><button class="quick-time" type="button" data-time-target="evEndTime" data-time="12:00">12:00</button><button class="quick-time" type="button" data-time-target="evEndTime" data-time="20:00">20:00</button><button class="quick-time" type="button" data-time-target="evEndTime" data-time="21:00">21:00</button><button class="quick-time" type="button" data-time-target="evEndTime" data-time="22:00">22:00</button></div></div>
-        <div class="form-section-title">Details</div>
-        <div class="event-form-field">
-          <label for="evCategory">Kategorie *</label>
-          <select id="evCategory" name="category" required>
-            <option value="event">Event</option>
-            <option value="gottesdienst">Gottesdienst</option>
-            <option value="leitung">Leitertermin</option>
-          </select>
-        </div>
-        <div class="event-form-field">
-          <label for="evLocationSelect">Ort *</label>
-          <select id="evLocationSelect" name="location_select" required>
-            <option value="">Bitte auswählen</option>
-            <option value="Gospel Forum Stuttgart - großer Saal">Gospel Forum Stuttgart - großer Saal</option>
-            <option value="Gospel Forum Stuttgart - kleiner Saal">Gospel Forum Stuttgart - kleiner Saal</option>
-            <option value="__other__">Andere</option>
-          </select>
-        </div>
-        <div class="event-form-field wide" id="evOtherLocationWrap" hidden>
-          <label for="evOtherLocation">Anderen Ort eintragen *</label>
-          <input id="evOtherLocation" name="location_other" maxlength="180" placeholder="Ort eingeben">
-        </div>
-        <div class="event-form-field">
-          <label for="evCreator">Angelegt von *</label>
-          <input id="evCreator" name="created_by" required maxlength="120" placeholder="Vor- und Nachname">
-        </div>
-        <div class="event-form-field">
-          <label for="evCreatorEmail">E-Mail *</label>
-          <input id="evCreatorEmail" name="created_by_email" type="email" required maxlength="180" placeholder="name@gospel-forum.de">
-        </div>
-        <div class="event-form-field wide">
-          <label for="evDescription">Beschreibung</label>
-          <textarea id="evDescription" name="description" maxlength="2000" placeholder="Infos zum Termin, Ansprechpartner, Besonderheiten …"></textarea>
-        </div>
-      </div>
-      <div class="event-form-actions">
-        <span class="form-status" id="eventFormStatus" aria-live="polite"></span>
-        <button class="event-form-cancel" id="eventFormCancel" type="button">Abbrechen</button>
-        <button class="event-form-save" id="eventFormSave" type="submit">Terminvorschlag senden</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="modal" id="modal"><div class="modalcard glass"><button class="icon close" id="close">×</button><span class="tag" id="modalTag"></span><h3 id="modalTitle"></h3><div class="meta" id="modalMeta"></div><div class="modalactions"><button class="smallbtn" id="modalShow">Im Kalender zeigen</button><button class="smallbtn" id="modalIcs">Kalenderdatei</button></div></div></div>
-<script src="config.js"></script>
-<script>
-const months=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-let events=[
-['Erster Gottesdienst','2027-01-03',null,'gottesdienst','Gospel Forum',''],['Leiterzoom','2027-01-07T19:00','2027-01-07T20:00','leitung','Online','Vorgeschlagener Termin vor der Fast- und Gebetswoche.'],['Fast- und Gebetswoche','2027-01-11','2027-01-15','event','Gospel Forum',''],['Vision Sunday','2027-01-24',null,'gottesdienst','Gospel Forum',''],['ESBS-Konferenz','2027-01-26','2027-01-27','event','Noch offen','Europe Shall Be Saved.'],['Stark Pastor- und Leiterkonferenz','2027-01-27','2027-01-29','leitung','Noch offen',''],['Holy Spirit Night','2027-01-29','2027-01-30','event','Noch offen',''],['Sunday Night Neustart','2027-02-07T18:00',null,'gottesdienst','Gospel Forum','Inklusive Taufe.'],['Leiterfreizeit Schönblick – Mitarbeiter','2027-02-10','2027-02-13','leitung','Schönblick','Mitarbeiter ab 10. Februar.'],['Leiterfreizeit Schönblick – Teilnehmer','2027-02-11','2027-02-13','leitung','Schönblick','Teilnehmer 11.–13. Februar.'],['HSN Outreach','2027-02-27',null,'event','Heilbronn · Bürgerhaus','Ca. 400 Plätze; weitere Städte wie Reutlingen und Tübingen möglich.'],['Osterferien','2027-03-25','2027-03-25','ferien','Baden-Württemberg',''],['Osterferien','2027-03-30','2027-04-03','ferien','Baden-Württemberg',''],['Leaders One Day','2027-04-24',null,'leitung','Noch offen',''],['RC-Abschluss','2027-05-01',null,'offen','Noch offen','Termin im Mai noch offen; im Kalender vorläufig am 1. Mai dargestellt.'],['Kingdom Builders / Partnerprogramm','2027-05-07T19:00',null,'event','Noch offen','Freitagabend vor den Pfingstferien.'],['Pfingstferien','2027-05-18','2027-05-29','ferien','Baden-Württemberg',''],['Leiterzoom 2','2027-06-17T19:00','2027-06-17T20:00','leitung','Online',''],['Konfirmationsfeier','2027-07-11',null,'gottesdienst','Gospel Forum',''],['Internationales Sommerfest','2027-07-18',null,'event','Gospel Forum',''],['Sommerferien','2027-07-29','2027-09-11','ferien','Baden-Württemberg',''],['Sommerfestival','2027-08-29','2027-09-05','event','Noch offen','Zeitraum circa 29. August bis 5. September.'],['Leaders One Day','2027-09-18',null,'leitung','Noch offen',''],['Holy Spirit Night','2027-10-01','2027-10-02','event','Noch offen',''],['Herbstferien','2027-11-02','2027-11-06','ferien','Baden-Württemberg',''],['Mitgliederversammlung','2027-11-04T18:00','2027-11-04T21:00','leitung','Gospel Forum',''],['Leiterzoom 3','2027-11-25T19:00','2027-11-25T20:00','leitung','Online',''],['Weihnachtsferien 2027/28','2027-12-23','2028-01-08','ferien','Baden-Württemberg','']
-].map((x,id)=>({id,title:x[0],start:x[1],end:x[2],category:x[3],location:x[4],desc:x[5]}));
-let state={view:'year',month:0,weekStart:monday(new Date(2027,0,4)),filter:'alle',search:'',selected:null,selectedDate:null};
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-function date(s){let[a,t]=s.split('T'),[y,m,d]=a.split('-').map(Number),v=new Date(y,m-1,d);if(t){let[h,n]=t.split(':').map(Number);v.setHours(h,n)}return v}function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}function monday(d){d=new Date(d);d.setDate(d.getDate()-(d.getDay()+6)%7);d.setHours(0,0,0,0);return d}function spans(e,d){let x=iso(d),a=e.start.split('T')[0],b=(e.end||e.start).split('T')[0];return x>=a&&x<=b}function on(d){return events.filter(e=>eventVisible(e)&&spans(e,d))}let categoryNames={event:'Event',ferien:'Ferien',leitung:'Leitertermin',gottesdienst:'Gottesdienst',offen:'Termin offen'};function label(c){return categoryNames[c]||c}function fmtDate(d){return d.toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'})}function fmt(e){let a=date(e.start),b=e.end?date(e.end):null,s=fmtDate(a);if(e.start.includes('T'))s+=', '+a.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr';if(b){if(e.end.split('T')[0]!==e.start.split('T')[0])s+=' – '+fmtDate(b);if(e.end.includes('T'))s+=', '+b.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr'}return s}
-function filtered(){return events.filter(e=>eventVisible(e)&&(state.filter==='alle'||e.category===state.filter)&&(e.title+' '+e.desc+' '+e.location).toLowerCase().includes(state.search.toLowerCase())).sort((a,b)=>date(a.start)-date(b.start))}
-function renderStats(){let counts={all:events.length,event:0,gottesdienst:0,leitung:0};events.forEach(e=>{if(counts[e.category]!==undefined)counts[e.category]++});$('#stats').innerHTML=`<div class="stat glass"><small>Alle Einträge</small><strong>${counts.all}</strong><span>inklusive Ferien</span></div><div class="stat glass"><small>Events</small><strong>${counts.event}</strong><span>Konferenzen & besondere Termine</span></div><div class="stat glass"><small>Gottesdienste</small><strong>${counts.gottesdienst}</strong><span>Feiern & Sunday Events</span></div><div class="stat glass"><small>Leiter</small><strong>${counts.leitung}</strong><span>Zooms, Freizeiten & Meetings</span></div>`}
-function renderYear(){let r=$('#yearGrid');r.innerHTML='';months.forEach((name,m)=>{let f=new Date(2027,m,1),off=(f.getDay()+6)%7,n=new Date(2027,m+1,0).getDate(),box=document.createElement('div');box.className='mini';box.innerHTML=`<div class="mini-head"><strong>${name}</strong><button>Monat öffnen</button></div><div class="weeklabels">${['M','D','M','D','F','S','S'].map(x=>`<span>${x}</span>`).join('')}</div><div class="minidays"></div>`;box.querySelector('button').addEventListener('click',()=>{state.month=m;state.view='month';render()});let g=box.querySelector('.minidays');for(let i=0;i<off;i++)g.append(document.createElement('span'));for(let d=1;d<=n;d++){let dt=new Date(2027,m,d),ev=on(dt),b=document.createElement('button');b.className='miniday'+(ev.length?' has':'')+(ev.some(x=>x.category==='ferien')?' holiday':'')+(ev.some(x=>x.status==='pending')?' pending-day':'')+(state.selectedDate===iso(dt)?' selected':'');b.textContent=d;b.title=ev.map(x=>x.title).join(', ');b.addEventListener('click',()=>{state.month=m;state.selectedDate=iso(dt);state.view='month';render()});g.append(b)}r.append(box)})}
-function renderMonth(){let r=$('#monthGrid');r.innerHTML='';let f=new Date(2027,state.month,1),off=(f.getDay()+6)%7,start=new Date(2027,state.month,1-off);for(let i=0;i<42;i++){let d=new Date(start);d.setDate(start.getDate()+i);let c=document.createElement('div');c.className='cell'+(d.getMonth()!==state.month?' out':'')+(state.selectedDate===iso(d)?' selected':'');c.innerHTML=`<div class="num">${d.getDate()}</div>`;on(d).slice(0,4).forEach(e=>{let b=document.createElement('button');b.className='chip '+e.category+(e.status==='pending'?' pending':'');b.textContent=(e.status==='pending'?'Vorschlag · ':'')+e.title;b.addEventListener('click',()=>selectEvent(e.id,true));c.append(b)});if(on(d).length>4)c.insertAdjacentHTML('beforeend',`<small style="color:var(--muted)">+${on(d).length-4} weitere</small>`);c.addEventListener('click',ev=>{if(ev.target===c||ev.target.classList.contains('num')){state.selectedDate=iso(d);renderMonth()}});r.append(c)}}
-function renderWeek(){let r=$('#weekGrid');r.innerHTML='<div class="weekhead"></div>';let ds=[];for(let i=0;i<7;i++){let d=new Date(state.weekStart);d.setDate(d.getDate()+i);ds.push(d);r.insertAdjacentHTML('beforeend',`<div class="weekhead"><strong>${['So','Mo','Di','Mi','Do','Fr','Sa'][d.getDay()]}</strong><br>${d.getDate()}. ${months[d.getMonth()].slice(0,3)}</div>`)}for(let h=7;h<=22;h++){r.insertAdjacentHTML('beforeend',`<div class="hour">${String(h).padStart(2,'0')}:00</div>`);ds.forEach(d=>{let s=document.createElement('div');s.className='slot';let ev=on(d).find(e=>!e.start.includes('T')||date(e.start).getHours()===h);if(ev){let b=document.createElement('button');b.className='weekevent';b.textContent=ev.title;b.addEventListener('click',()=>selectEvent(ev.id,true));s.append(b)}r.append(s)})}}
-function renderAgenda(){let r=$('#agendaList'),arr=filtered();r.innerHTML='';months.forEach((m,mi)=>{let group=arr.filter(e=>date(e.start).getMonth()===mi);if(!group.length)return;let wrap=document.createElement('section');wrap.className='month-group';wrap.innerHTML=`<h4>${m}</h4>`;group.forEach(e=>{let d=date(e.start),b=document.createElement('button');b.className='agenda-row'+(e.status==='pending'?' pending':'');b.innerHTML=`<div class="agenda-date"><strong>${String(d.getDate()).padStart(2,'0')}</strong><small>${d.toLocaleDateString('de-DE',{weekday:'short'})}</small></div><span class="dot ${e.category}"></span><div class="agenda-info"><strong>${e.title}</strong>${e.status==='pending'?'<span class="pending-badge">Terminvorschlag</span>':''}<p>${fmt(e)} · ${e.location}${e.desc?' · '+e.desc:''}</p></div><span class="agenda-arrow">›</span>`;b.addEventListener('click',()=>selectEvent(e.id,true));wrap.append(b)});r.append(wrap)});if(!r.children.length)r.innerHTML='<div class="empty">Keine Termine für diese Suche gefunden.</div>'}
-function renderList(){let arr=filtered(),r=$('#eventList');r.innerHTML='';arr.forEach(e=>{let d=date(e.start),b=document.createElement('button');b.className='eventrow'+(state.selected===e.id?' active':'')+(e.status==='pending'?' pending':'');b.innerHTML=`<div class="datebox"><strong>${d.getDate()}</strong><span>${months[d.getMonth()].slice(0,3)}</span></div><div class="eventinfo"><strong>${e.title}</strong>${e.status==='pending'?'<span class="pending-badge">Vorschlag</span>':''}<small>${fmt(e)}<br>${e.location}</small></div>`;b.addEventListener('click',()=>selectEvent(e.id,false));r.append(b)});if(!arr.length)r.innerHTML='<div class="empty">Keine Termine gefunden.</div>';renderDetail()}
-function renderDetail(){let bar=$('#detailBar'),e=events.find(x=>x.id===state.selected);if(!e){bar.classList.remove('show');return}bar.classList.add('show');$('#detailTitle').textContent=e.title;$('#detailText').textContent=`${e.status==='pending'?'Terminvorschlag · ':''}${fmt(e)} · ${e.location}${e.desc?' · '+e.desc:''}`}
-function selectEvent(id,open=false){let e=events.find(x=>x.id===id),d=date(e.start);state.selected=id;state.selectedDate=e.start.split('T')[0];state.month=d.getMonth();state.weekStart=monday(d);renderList();renderYear();renderMonth();if(open)openEvent(id)}
-function showSelected(){let e=events.find(x=>x.id===state.selected);if(!e)return;let d=date(e.start);state.month=d.getMonth();state.weekStart=monday(d);state.selectedDate=e.start.split('T')[0];state.view='month';render();setTimeout(()=>document.querySelector('.calendar').scrollIntoView({behavior:'smooth',block:'start'}),50)}
-function openEvent(id){let e=events.find(x=>x.id===id);state.selected=id;$('#modalTag').textContent=e.status==='pending'?'Vorschlag · '+label(e.category):label(e.category);$('#modalTitle').textContent=e.title;$('#modalMeta').innerHTML=`<strong>${fmt(e)}</strong><br>${e.location}${e.desc?'<br><br>'+e.desc:''}`;$('#modal').classList.add('open');renderList()}
-function icsDate(s,end=false){let d=date(s),allDay=!s.includes('T');if(allDay&&end)d.setDate(d.getDate()+1);return allDay?iso(d).replaceAll('-',''):d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'T'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')+'00'}
-function eventIcs(e){let all=!e.start.includes('T'),end=e.end||e.start;return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Gospel Forum//Kalender 2027//DE','BEGIN:VEVENT','UID:'+e.id+'-2027@gospel-forum.de','DTSTAMP:20260802T074700Z',(all?'DTSTART;VALUE=DATE:':'DTSTART:')+icsDate(e.start),(all?'DTEND;VALUE=DATE:':'DTEND:')+icsDate(end,all),'SUMMARY:'+e.title.replaceAll(',','\\,'),'LOCATION:'+e.location.replaceAll(',','\\,'),'DESCRIPTION:'+e.desc.replaceAll('\n','\\n').replaceAll(',','\\,'),'END:VEVENT','END:VCALENDAR'].join('\r\n')}
-function download(content,name){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type:'text/calendar;charset=utf-8'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}function downloadSelected(){let e=events.find(x=>x.id===state.selected);if(e)download(eventIcs(e),e.title.replace(/[^a-z0-9äöüß]+/gi,'-')+'.ics')}function downloadAll(){let body=events.map(e=>eventIcs(e).split('\r\n').slice(3,-1).join('\r\n')).join('\r\n');download('BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Gospel Forum//Kalender 2027//DE\r\n'+body+'\r\nEND:VCALENDAR','gospel-forum-kalender-2027.ics')}
-function navigate(direction){
- if(state.view==='month'){
-  state.month=(state.month+direction+12)%12;
-  state.selectedDate=null;
- }else if(state.view==='week'){
-  let d=new Date(state.weekStart);d.setDate(d.getDate()+direction*7);state.weekStart=d;
- }else if(state.view==='year'){
-  state.month=direction<0?11:0;state.view='month';
- }else{
-  state.view=direction<0?'year':'month';if(direction>0)state.month=0;
- }
- render();
-}
-function goHome(){state.view='year';state.month=0;state.weekStart=monday(new Date(2027,0,4));state.selectedDate=null;render()}
-function render(){['year','month','week','agenda'].forEach(v=>{$('#'+v+'View').classList.toggle('active',state.view===v);$(`[data-view="${v}"]`).classList.toggle('active',state.view===v)});$('#title').textContent=state.view==='year'?'2027':state.view==='month'?months[state.month]+' 2027':state.view==='week'?'Woche ab '+fmtDate(state.weekStart):'Terminübersicht 2027';$('#subtitle').textContent=state.view==='year'?'Jahresansicht':state.view==='month'?'Monatsansicht':state.view==='week'?'Wochenansicht':'Alle Einträge ausführlich nach Monaten';renderYear();renderMonth();renderWeek();renderAgenda();renderList()}
-
-const SUPABASE_URL=(window.GF_SUPABASE&&window.GF_SUPABASE.url||'').replace(/\/$/,'');
-const SUPABASE_KEY=(window.GF_SUPABASE&&window.GF_SUPABASE.key||'');
-const supabaseConfigured=()=>Boolean(SUPABASE_URL&&SUPABASE_KEY&&!SUPABASE_URL.includes('DEIN-PROJEKT'));
-
-function apiHeaders(extra={}){
-  return Object.assign({
-    'apikey':SUPABASE_KEY,
-    'Content-Type':'application/json'
-  },extra);
-}
-function dbToEvent(row){
-  const start=row.start_time?`${row.start_date}T${String(row.start_time).slice(0,5)}`:row.start_date;
-  let end=null;
-  if(row.end_date||row.end_time){
-    const ed=row.end_date||row.start_date;
-    end=row.end_time?`${ed}T${String(row.end_time).slice(0,5)}`:ed;
-  }
-  return {
-    id:'db-'+row.id,
-    title:row.title,
-    start,
-    end,
-    category:row.category||'event',
-    location:row.location||'Noch offen',
-    desc:row.description||'',
-    createdBy:row.created_by||'',
-    status:row.status||'published',
-    remote:true
-  };
-}
-async function loadSupabaseEvents(){
-  if(!supabaseConfigured()) return;
-  try{
-    const url=SUPABASE_URL+'/rest/v1/calendar_events?select=id,title,start_date,end_date,start_time,end_time,category,location,description,created_by,status&status=in.(published,pending)&order=start_date.asc,start_time.asc';
-    const res=await fetch(url,{headers:apiHeaders({'Content-Type':'application/json'})});
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const rows=await res.json();
-    const existing=new Set(events.filter(e=>eventVisible(e)&&e.remote).map(e=>e.id));
-    rows.map(dbToEvent).forEach(e=>{if(!existing.has(e.id))events.push(e)});
-    renderStats();render();
-  }catch(err){
-    console.warn('Supabase Termine konnten nicht geladen werden:',err);
-  }
-}
-function openEventForm(){
-  const modal=$('#eventFormModal');
-  $('#eventFormStatus').textContent=supabaseConfigured()?'':'Supabase muss noch in config.js verbunden werden.';
-  modal.classList.add('open');
-  modal.setAttribute('aria-hidden','false');
-  setTimeout(()=>$('#evTitle').focus(),50);
-}
-function closeEventForm(){
-  const modal=$('#eventFormModal');
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden','true');
-}
-async function submitEventForm(ev){
-  ev.preventDefault();
-  const form=ev.currentTarget;
-  const status=$('#eventFormStatus'),save=$('#eventFormSave');
-  if(!supabaseConfigured()){
-    status.textContent='Bitte zuerst Supabase URL und Publishable Key in config.js eintragen.';
-    return;
-  }
-  const fd=new FormData(ev.currentTarget);
-  const startDate=fd.get('start_date'),endDate=fd.get('end_date')||null;
-  if(endDate&&endDate<startDate){
-    status.textContent='„Datum bis“ darf nicht vor „Datum von“ liegen.';
-    return;
-  }
-  const selectedLocation=String(fd.get('location_select')||'').trim();
-  const otherLocation=String(fd.get('location_other')||'').trim();
-  if(selectedLocation==='__other__' && !otherLocation){
-    status.textContent='Bitte den anderen Ort eintragen.';
-    $('#evOtherLocation').focus();
-    return;
-  }
-  const payload={
-    title:String(fd.get('title')||'').trim(),
-    start_date:startDate,
-    end_date:endDate,
-    start_time:fd.get('start_time')||null,
-    end_time:fd.get('end_time')||null,
-    category:fd.get('category')||'event',
-    location:(selectedLocation==='__other__' ? (otherLocation||null) : (selectedLocation||null)),
-    description:String(fd.get('description')||'').trim()||null,
-    created_by:String(fd.get('created_by')||'').trim(),
-    created_by_email:String(fd.get('created_by_email')||'').trim(),
-    status:'pending'
-  };
-  save.disabled=true;status.textContent='Termin wird gespeichert …';
-  try{
-    const res=await fetch(SUPABASE_URL+'/rest/v1/calendar_events',{
-      method:'POST',
-      headers:apiHeaders({'Prefer':'return=minimal'}),
-      body:JSON.stringify(payload)
-    });
-    if(!res.ok){
-      const msg=await res.text();
-      let clean=msg;
-      try{
-        const parsed=JSON.parse(msg);
-        clean=parsed.message||parsed.details||parsed.hint||msg;
-      }catch(e){}
-      throw new Error(`Supabase ${res.status}: ${clean}`);
-    }
-    status.textContent='Gespeichert ✓ Dein Terminvorschlag wurde erfolgreich eingereicht.';
-    form.reset();
-    setTimeout(closeEventForm,1600);
-  }catch(err){
-    console.error(err);
-    status.textContent='Speichern fehlgeschlagen: '+(err.message||'Unbekannter Supabase-Fehler.');
-  }finally{
-    save.disabled=false;
-  }
-}
-
-
-let adminSession=null;
-let dbCategories=[];
-
-function slugify(v){
-  return String(v||'').toLowerCase().trim()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);
-}
-function userHeaders(token,extra={}){
-  return Object.assign({
-    'apikey':SUPABASE_KEY,
-    'Authorization':'Bearer '+token,
-    'Content-Type':'application/json'
-  },extra);
-}
-async function loadCategories(){
-  if(!supabaseConfigured()) return;
-  try{
-    const res=await fetch(SUPABASE_URL+'/rest/v1/calendar_categories?select=slug,name,allow_proposals,active,sort_order&active=eq.true&order=sort_order.asc,name.asc',{
-      headers:apiHeaders()
-    });
-    if(!res.ok) throw new Error(await res.text());
-    dbCategories=await res.json();
-    dbCategories.forEach(c=>categoryNames[c.slug]=c.name);
-    const select=$('#evCategory');
-    if(select){
-      const allowed=dbCategories.filter(c=>c.allow_proposals);
-      if(allowed.length){
-        select.innerHTML=allowed.map(c=>`<option value="${c.slug}">${c.name}</option>`).join('');
-      }
-    }
-  }catch(err){ console.warn('Kategorien konnten nicht geladen werden',err); }
-}
-function openAdmin(){
-  $('#adminModal').classList.add('open');
-  $('#adminModal').setAttribute('aria-hidden','false');
-  restoreAdminSession();
-}
-function closeAdmin(){
-  $('#adminModal').classList.remove('open');
-  $('#adminModal').setAttribute('aria-hidden','true');
-}
-async function adminLogin(){
-  const email=$('#adminEmail').value.trim();
-  const password=$('#adminPassword').value;
-  const status=$('#adminLoginStatus');
-  if(!email||!password){status.textContent='Bitte E-Mail und Passwort eingeben.';return}
-  status.textContent='Anmeldung läuft …';
-  try{
-    const res=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{
-      method:'POST',
-      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({email,password})
-    });
-    if(!res.ok) throw new Error('E-Mail oder Passwort nicht korrekt.');
-    const session=await res.json();
-    const uid=session.user&&session.user.id;
-    const check=await fetch(SUPABASE_URL+`/rest/v1/calendar_admins?user_id=eq.${encodeURIComponent(uid)}&select=user_id`,{
-      headers:userHeaders(session.access_token)
-    });
-    const rows=check.ok?await check.json():[];
-    if(!rows.length) throw new Error('Dieses Konto ist nicht als Kalender-Admin freigeschaltet.');
-    adminSession=session;
-    sessionStorage.setItem('gf_admin_session',JSON.stringify(session));
-    showAdminPanel();
-  }catch(err){
-    status.textContent=err.message||'Anmeldung fehlgeschlagen.';
-  }
-}
-function restoreAdminSession(){
-  try{
-    const raw=sessionStorage.getItem('gf_admin_session');
-    if(raw) adminSession=JSON.parse(raw);
-  }catch(e){}
-  if(adminSession&&adminSession.access_token) showAdminPanel();
-  else{
-    $('#adminLoginView').classList.remove('admin-hidden');
-    $('#adminPanel').classList.add('admin-hidden');
-  }
-}
-function adminLogout(){
-  adminSession=null;
-  sessionStorage.removeItem('gf_admin_session');
-  $('#adminPanel').classList.add('admin-hidden');
-  $('#adminLoginView').classList.remove('admin-hidden');
-  $('#adminPassword').value='';
-  $('#adminLoginStatus').textContent='Abgemeldet.';
-}
-async function showAdminPanel(){
-  $('#adminLoginView').classList.add('admin-hidden');
-  $('#adminPanel').classList.remove('admin-hidden');
-  $('#adminUserName').textContent=(adminSession.user&&adminSession.user.email)||'Admin';
-  await Promise.all([loadPendingAdmin(),loadCategoriesAdmin()]);
-}
-async function loadPendingAdmin(){
-  const list=$('#proposalList'),status=$('#proposalStatus');
-  list.innerHTML='';status.textContent='Lade Vorschläge …';
-  try{
-    const res=await fetch(SUPABASE_URL+'/rest/v1/calendar_events?select=id,title,start_date,end_date,start_time,end_time,location,category,created_by,description,status&status=eq.pending&order=start_date.asc',{
-      headers:userHeaders(adminSession.access_token)
-    });
-    if(!res.ok) throw new Error(await res.text());
-    const rows=await res.json();
-    status.textContent=rows.length?`${rows.length} offene Vorschläge`:'Keine offenen Terminvorschläge.';
-    rows.forEach(row=>{
-      const el=document.createElement('div');el.className='proposal-card';
-      const when=[row.start_date,row.start_time?String(row.start_time).slice(0,5)+' Uhr':''].filter(Boolean).join(' · ');
-      el.innerHTML=`<strong>${row.title}</strong><small>${when} · ${row.location||'Ort offen'} · ${label(row.category)}<br>Eingereicht von ${row.created_by||'–'}</small>
-        <div class="admin-actions">
-          <button class="admin-approve" type="button" data-approve="${row.id}">Veröffentlichen</button>
-          <button class="admin-danger" type="button" data-reject="${row.id}">Ablehnen</button>
-        </div>`;
-      list.append(el);
-    });
-    list.querySelectorAll('[data-approve]').forEach(b=>b.addEventListener('click',()=>setProposalStatus(b.dataset.approve,'published')));
-    list.querySelectorAll('[data-reject]').forEach(b=>b.addEventListener('click',()=>setProposalStatus(b.dataset.reject,'rejected')));
-  }catch(err){status.textContent='Vorschläge konnten nicht geladen werden.'}
-}
-async function setProposalStatus(id,statusValue){
-  const res=await fetch(SUPABASE_URL+`/rest/v1/calendar_events?id=eq.${encodeURIComponent(id)}`,{
-    method:'PATCH',
-    headers:userHeaders(adminSession.access_token,{'Prefer':'return=minimal'}),
-    body:JSON.stringify({status:statusValue})
-  });
-  if(!res.ok){$('#proposalStatus').textContent='Änderung fehlgeschlagen.';return}
-  events=events.filter(e=>eventVisible(e)&&e.id!=='db-'+id);
-  await loadSupabaseEvents();
-  await loadPendingAdmin();
-}
-async function loadCategoriesAdmin(){
-  await loadCategories();
-  const list=$('#categoryAdminList');
-  list.innerHTML='';
-  dbCategories.forEach(c=>{
-    const el=document.createElement('div');el.className='category-admin-row';
-    el.innerHTML=`<span><strong>${c.name}</strong><br><small style="color:var(--muted)">${c.allow_proposals?'für Vorschläge auswählbar':'nur intern'}</small></span>`;
-    list.append(el);
-  });
-}
-async function addCategory(){
-  const input=$('#newCategoryName'),status=$('#categoryStatus');
-  const name=input.value.trim(),slug=slugify(name);
-  if(!name||!slug){status.textContent='Bitte einen Kategorienamen eingeben.';return}
-  status.textContent='Kategorie wird gespeichert …';
-  const res=await fetch(SUPABASE_URL+'/rest/v1/calendar_categories',{
-    method:'POST',
-    headers:userHeaders(adminSession.access_token,{'Prefer':'return=minimal'}),
-    body:JSON.stringify({slug,name,allow_proposals:true,active:true,sort_order:100})
-  });
-  if(!res.ok){
-    status.textContent='Kategorie konnte nicht angelegt werden. Eventuell existiert sie bereits.';
-    return;
-  }
-  input.value='';status.textContent='Kategorie hinzugefügt ✓';
-  await loadCategoriesAdmin();
-}
-
-
-const activeCategories=new Set(['event','gottesdienst','leitung','ferien','offen']);
-
-function eventVisible(e){
-  return !e.category || activeCategories.has(e.category);
-}
-
-function applyCategoryVisibility(){
-  renderStats();
-  render();
-}
-
-$$('[data-cat-toggle]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const c=btn.dataset.catToggle;
-    if(activeCategories.has(c)) activeCategories.delete(c);
-    else activeCategories.add(c);
-    btn.setAttribute('aria-pressed',activeCategories.has(c)?'true':'false');
-    applyCategoryVisibility();
-  });
-});
-
-$$('.quick-time').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const input=document.getElementById(btn.dataset.timeTarget);
-    if(input) input.value=btn.dataset.time;
-  });
-});
-
-$$('.footer-proposal-btn').forEach(btn=>btn.addEventListener('click',openEventForm));
-
-async function internalLogin(){
-  const email=$('#internalEmail').value.trim();
-  const password=$('#internalPassword').value;
-  const status=$('#internalLoginStatus');
-  if(!email||!password){status.textContent='Bitte E-Mail und Passwort eingeben.';return}
-  status.textContent='Anmeldung läuft …';
-  try{
-    const res=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{
-      method:'POST',
-      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({email,password})
-    });
-    if(!res.ok) throw new Error('Anmeldung fehlgeschlagen.');
-    const session=await res.json();
-    sessionStorage.setItem('gf_internal_session',JSON.stringify(session));
-    $('#internalGate').classList.add('hidden');
-    status.textContent='';
-  }catch(err){
-    status.textContent='E-Mail oder Passwort nicht korrekt.';
-  }
-}
-
-function restoreInternalSession(){
-  try{
-    const raw=sessionStorage.getItem('gf_internal_session');
-    if(raw){
-      const session=JSON.parse(raw);
-      if(session&&session.access_token){
-        $('#internalGate').classList.add('hidden');
-        return;
-      }
-    }
-  }catch(e){}
-  $('#internalGate').classList.remove('hidden');
-}
-
-$('#internalLoginBtn').addEventListener('click',internalLogin);
-$('#internalPassword').addEventListener('keydown',e=>{if(e.key==='Enter')internalLogin()});
-
-$$('[data-view]').forEach(b=>b.addEventListener('click',()=>{state.view=b.dataset.view;render()}));$('#navPrev').addEventListener('click',()=>navigate(-1));$('#navHome').addEventListener('click',goHome);$('#navNext').addEventListener('click',()=>navigate(1));$('#search').addEventListener('input',e=>{state.search=e.target.value;renderList();renderAgenda()});$$('.filter').forEach(b=>b.addEventListener('click',()=>{$$('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.filter=b.dataset.filter;renderList();renderAgenda()}));$('#theme').addEventListener('click',()=>{let dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';localStorage.setItem('theme',dark?'light':'dark')});$('#printBtn').addEventListener('click',()=>window.print());$('#close').addEventListener('click',()=>$('#modal').classList.remove('open'));$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')$('#modal').classList.remove('open')});$('#showInCalendar').addEventListener('click',showSelected);$('#modalShow').addEventListener('click',()=>{$('#modal').classList.remove('open');showSelected()});$('#downloadOne').addEventListener('click',downloadSelected);$('#modalIcs').addEventListener('click',downloadSelected);$('#downloadAll').addEventListener('click',downloadAll);
-$('#addEventBtn').addEventListener('click',openEventForm);
-
-$('#adminBtn').addEventListener('click',openAdmin);
-$('#adminClose').addEventListener('click',closeAdmin);
-$('#adminModal').addEventListener('click',e=>{if(e.target.id==='adminModal')closeAdmin()});
-$('#adminLoginBtn').addEventListener('click',adminLogin);
-$('#adminPassword').addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin()});
-$('#adminLogoutBtn').addEventListener('click',adminLogout);
-$('#addCategoryBtn').addEventListener('click',addCategory);
-
-const locationSelect=$('#evLocationSelect');
-const otherLocationWrap=$('#evOtherLocationWrap');
-if(locationSelect&&otherLocationWrap){
-  locationSelect.addEventListener('change',()=>{
-    const other=locationSelect.value==='__other__';
-    otherLocationWrap.hidden=!other;
-    const input=$('#evOtherLocation');
-    if(input){input.required=other;if(!other)input.value='';if(other)setTimeout(()=>input.focus(),20)}
-  });
-}
-
-$('#eventFormClose').addEventListener('click',closeEventForm);
-$('#eventFormCancel').addEventListener('click',closeEventForm);
-$('#eventFormModal').addEventListener('click',e=>{if(e.target.id==='eventFormModal')closeEventForm()});
-$('#eventForm').addEventListener('submit',submitEventForm);
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeEventForm()});
-
-let saved=localStorage.getItem('theme');if(saved)document.documentElement.dataset.theme=saved;else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.dataset.theme='dark';renderStats();render();loadCategories();loadSupabaseEvents();
-</script>
-
-<div class="admin-shell" id="adminShell" aria-hidden="true">
-  <section class="admin-card" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
-    <div class="admin-head">
-      <div>
-        <h2 id="adminTitle">Adminbereich</h2>
-        <div style="color:var(--muted);font-size:12px;margin-top:3px">Terminvorschläge & Kategorien verwalten</div>
-      </div>
-      <button class="admin-close" id="closeAdmin" type="button" aria-label="Schließen">×</button>
-    </div>
-
-    <div class="admin-login" id="adminLoginView">
-      <h3>Anmelden</h3>
-      <p>Der Kalender bleibt öffentlich. Nur die Verwaltung benötigt eine Anmeldung.</p>
-      <div class="admin-form-grid">
-        <div class="admin-field">
-          <label for="adminEmail">E-Mail-Adresse</label>
-          <input id="adminEmail" type="email" autocomplete="username" placeholder="name@gospel-forum.de">
-        </div>
+      
         <div class="admin-field">
           <label for="adminPassword">Passwort</label>
           <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Passwort">
@@ -1325,14 +826,34 @@ let saved=localStorage.getItem('theme');if(saved)document.documentElement.datase
       </div>
 
       <div class="admin-panel" id="adminPanelCategories" style="display:none">
-        <h3>Kategorien</h3>
-        <p>Farben der Standardkategorien. Weitere Kategorien können über Supabase ergänzt werden.</p>
+        <h3>Kategorien verwalten</h3>
+        <p>Bezeichnung und Farbe der Kategorien können hier geändert werden.</p>
         <div id="adminCategoryList">
-          <div class="category-admin-row"><input class="category-color" type="color" value="#0a84ff" data-css-var="--cat-event"><strong>Events</strong><span>Event</span></div>
-          <div class="category-admin-row"><input class="category-color" type="color" value="#7d5cff" data-css-var="--cat-gottesdienst"><strong>Gottesdienste</strong><span>Gottesdienst</span></div>
-          <div class="category-admin-row"><input class="category-color" type="color" value="#ff9f0a" data-css-var="--cat-leitung"><strong>Leitertermine</strong><span>Leitung</span></div>
-          <div class="category-admin-row"><input class="category-color" type="color" value="#ff453a" data-css-var="--cat-ferien"><strong>Ferien</strong><span>Ferien</span></div>
+          <div class="category-admin-row" data-cat-admin="event">
+            <input class="category-color" type="color" value="#0a84ff" data-css-var="--cat-event">
+            <input class="category-name-input" type="text" value="Events" data-cat-name="event">
+            <span>Event</span>
+          </div>
+          <div class="category-admin-row" data-cat-admin="gottesdienst">
+            <input class="category-color" type="color" value="#7d5cff" data-css-var="--cat-gottesdienst">
+            <input class="category-name-input" type="text" value="Gottesdienste" data-cat-name="gottesdienst">
+            <span>Gottesdienst</span>
+          </div>
+          <div class="category-admin-row" data-cat-admin="leitung">
+            <input class="category-color" type="color" value="#ff9f0a" data-css-var="--cat-leitung">
+            <input class="category-name-input" type="text" value="Leitertermine" data-cat-name="leitung">
+            <span>Leitung</span>
+          </div>
+          <div class="category-admin-row" data-cat-admin="ferien">
+            <input class="category-color" type="color" value="#ff453a" data-css-var="--cat-ferien">
+            <input class="category-name-input" type="text" value="Ferien" data-cat-name="ferien">
+            <span>Ferien</span>
+          </div>
         </div>
+        <div class="admin-actions">
+          <button class="admin-primary" id="saveCategoryNamesBtn" type="button">Kategorien speichern</button>
+        </div>
+        <div class="admin-status" id="categoryAdminStatus"></div>
       </div>
     </div>
   </section>
@@ -1577,6 +1098,110 @@ let saved=localStorage.getItem('theme');if(saved)document.documentElement.datase
   const observer=new MutationObserver(classifyRows);
   observer.observe(document.body,{childList:true,subtree:true});
   classifyRows();
+})();
+</script>
+
+
+<script id="gf-v16-category-admin-js">
+(function(){
+  const q=(s,r=document)=>r.querySelector(s);
+  const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
+
+  const DEFAULT_NAMES={
+    event:'Events',
+    gottesdienst:'Gottesdienste',
+    leitung:'Leitertermine',
+    ferien:'Ferien'
+  };
+
+  function currentNames(){
+    const out={...DEFAULT_NAMES};
+    qa('[data-cat-name]').forEach(input=>{
+      if(input.value.trim()) out[input.dataset.catName]=input.value.trim();
+    });
+    return out;
+  }
+
+  function applyNames(names){
+    // Filter buttons
+    qa('[data-cat-toggle]').forEach(btn=>{
+      const key=btn.dataset.catToggle;
+      if(!names[key]) return;
+      const swatch=btn.querySelector('.category-swatch');
+      btn.innerHTML='';
+      if(swatch) btn.appendChild(swatch);
+      else {
+        const s=document.createElement('span');
+        s.className='category-swatch';
+        btn.appendChild(s);
+      }
+      btn.append(document.createTextNode(names[key]));
+    });
+
+    // Right event category badges
+    const styleId='gf-dynamic-category-labels';
+    let st=document.getElementById(styleId);
+    if(!st){st=document.createElement('style');st.id=styleId;document.head.appendChild(st)}
+    st.textContent=`
+      .eventrow[data-category="event"]::after{content:"${names.event.replace(/"/g,'\\"')}"!important}
+      .eventrow[data-category="gottesdienst"]::after{content:"${names.gottesdienst.replace(/"/g,'\\"')}"!important}
+      .eventrow[data-category="leitung"]::after{content:"${names.leitung.replace(/"/g,'\\"')}"!important}
+      .eventrow[data-category="ferien"]::after{content:"${names.ferien.replace(/"/g,'\\"')}"!important}
+    `;
+
+    // Proposal form options
+    const select=q('#evCategory');
+    if(select){
+      Array.from(select.options).forEach(opt=>{
+        if(names[opt.value]) opt.textContent=names[opt.value];
+      });
+    }
+  }
+
+  try{
+    const saved=JSON.parse(localStorage.getItem('gf_category_names')||'null');
+    if(saved){
+      qa('[data-cat-name]').forEach(input=>{
+        if(saved[input.dataset.catName]) input.value=saved[input.dataset.catName];
+      });
+      applyNames(saved);
+    }
+  }catch(e){}
+
+  q('#saveCategoryNamesBtn')?.addEventListener('click', async ()=>{
+    const names=currentNames();
+    localStorage.setItem('gf_category_names',JSON.stringify(names));
+    applyNames(names);
+
+    const status=q('#categoryAdminStatus');
+    if(status) status.textContent='Bezeichnungen lokal gespeichert ✓';
+
+    // If admin session exists, also persist to Supabase calendar_categories
+    let session=null;
+    try{session=JSON.parse(sessionStorage.getItem('gf_admin_session')||'null')}catch(e){}
+    if(!session?.access_token) return;
+
+    try{
+      for(const [slug,name] of Object.entries(names)){
+        const res=await fetch(
+          SUPABASE_URL+'/rest/v1/calendar_categories?slug=eq.'+encodeURIComponent(slug),
+          {
+            method:'PATCH',
+            headers:{
+              'apikey':SUPABASE_KEY,
+              'Authorization':'Bearer '+session.access_token,
+              'Content-Type':'application/json'
+            },
+            body:JSON.stringify({name})
+          }
+        );
+        if(!res.ok) throw new Error('Speichern fehlgeschlagen');
+      }
+      if(status) status.textContent='Kategorien in Supabase gespeichert ✓';
+    }catch(err){
+      if(status) status.textContent='Lokal gespeichert; Supabase-Änderung konnte nicht gespeichert werden.';
+    }
+  });
 })();
 </script>
 
