@@ -20,3 +20,6 @@ with check (
   and created_by is not null
   and created_by_email is not null
 );
+
+
+alter table public.calendar_categories add column if not exists color text not null default '#0A84FF';

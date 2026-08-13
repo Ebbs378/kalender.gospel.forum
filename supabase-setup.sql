@@ -33,19 +33,24 @@ alter table public.calendar_events drop constraint if exists calendar_events_cat
 create table if not exists public.calendar_categories (
   slug text primary key,
   name text not null unique,
+  color text not null default '#0A84FF',
   allow_proposals boolean not null default true,
   active boolean not null default true,
   sort_order integer not null default 100,
   created_at timestamptz not null default now()
 );
 
-insert into public.calendar_categories(slug,name,allow_proposals,active,sort_order) values
-  ('event','Event',true,true,10),
-  ('gottesdienst','Gottesdienst',true,true,20),
-  ('leitung','Leitertermin',true,true,30),
-  ('ferien','Ferien',false,true,40)
+alter table public.calendar_categories
+  add column if not exists color text not null default '#0A84FF';
+
+insert into public.calendar_categories(slug,name,color,allow_proposals,active,sort_order) values
+  ('event','Event','#0A84FF',true,true,10),
+  ('gottesdienst','Gottesdienst','#7D5CFF',true,true,20),
+  ('leitung','Leitertermin','#FF9F0A',true,true,30),
+  ('ferien','Ferien','#FF453A',false,true,40)
 on conflict (slug) do update set
   name=excluded.name,
+  color=excluded.color,
   allow_proposals=excluded.allow_proposals,
   active=excluded.active,
   sort_order=excluded.sort_order;
