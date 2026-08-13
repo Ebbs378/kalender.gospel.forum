@@ -1,26 +1,17 @@
-# Gospel Forum Kalender 2027 – V19 Kategorien Final
+# Gospel Forum Kalender 2027 – V20 Mitarbeiter Final
 
-## Kategorien
-Die fünf festen System-Kategorien sind:
-- Event
-- Gottesdienst
-- Leitertermin
-- Ferien
-- Termin offen
-
-Alle fünf Kategorien sind im Formular „Termin vorschlagen“ auswählbar.
-
-## Terminvorschläge
-„Terminvorschlag“ ist **keine normale Kategorie**, sondern ein Status/Filter.
-Dadurch kann ein Vorschlag z. B. gleichzeitig:
-- Kategorie = Gottesdienst
-- Status = Terminvorschlag
-
-sein.
-
-Im Kalender gibt es deshalb zusätzlich den Filter **Terminvorschläge**.
-Dieser zeigt alle offenen Vorschläge unabhängig von ihrer eigentlichen Kategorie.
+## Neu
+- Mitarbeiter-Login vor der Kalenderansicht mit Gospel-Forum-Logo
+- Kalender erst nach erfolgreicher Supabase-Anmeldung sichtbar
+- Tag / Woche / Monat / Jahr auswählbar
+- keine „Monat öffnen“-Beschriftungen mehr
+- Hell/Dunkel über Mond-/Sonnen-Icon
+- oben kein „Baden-Württemberg“
+- Adminbereich nur noch Genehmigen / Ablehnen
+- Konflikthinweis, wenn im gleichen Zeitraum schon ein Termin oder Terminvorschlag liegt
 
 ## Supabase
-Einmal `supabase-categories-v19.sql` im SQL Editor ausführen.
-Danach sind die fünf Kategorien sicher in `calendar_categories` vorhanden.
+1. `supabase-admin-v20.sql` ausführen.
+2. `supabase-mitarbeiter-v20.sql` ausführen.
+3. Mitarbeiter unter Authentication → Users anlegen.
+4. Admins zusätzlich in `calendar_admins` eintragen.
