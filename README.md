@@ -1,28 +1,18 @@
-# Gospel Forum Kalender 2027 – V12 Intern
-
-## Neu
-- komplette Kalenderansicht erst nach Supabase-Login
-- interne Nutzung statt Besucheransicht
-- Kategorie-Filter:
-  - Events
-  - Gottesdienste
-  - Leitertermine
-  - Ferien
-- eigene Farben pro Kategorie
-- einfacheres Terminformular
-- große Datums- und Uhrzeitfelder
-- Schnellwahl für häufige Uhrzeiten
-- Footer mit „Termin vorschlagen“
-- kein E-Mail-Aufruf mehr
+# Gospel Forum Kalender 2027 – V13 Offen + Admin
 
 ## Wichtig
-Die bestehende Supabase-Verbindung bleibt erhalten.
+Der Kalender ist wieder **ohne Anmeldung für alle sichtbar**.
 
-## Interne Benutzer anlegen
-Supabase → Authentication → Users → Add user
+### Für alle
+- Jahres-, Monats- und weitere Kalenderansichten
+- Kategorie-Filter
+- Events, Gottesdienste, Leitertermine und Ferien ein-/ausblenden
+- unterschiedliche Farben pro Kategorie
+- Terminvorschlag über das Formular einreichen
+- einfache Datums- und Uhrzeitfelder mit Schnellwahl
 
-Jeder angelegte Benutzer kann sich am internen Login anmelden.
+### Admin
+Nur der Adminbereich benötigt weiterhin eine Supabase-Anmeldung.
+Admins können Terminvorschläge prüfen/veröffentlichen/ablehnen und Kategorien verwalten.
 
-## Admin
-Die Admin-Funktionen aus der vorherigen Version bleiben bestehen.
-Admin-Zuordnung weiterhin über `calendar_admins`.
+Die bestehende Supabase-Verbindung und Datenbank bleiben erhalten.

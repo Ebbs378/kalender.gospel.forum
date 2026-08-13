@@ -499,31 +499,7 @@ footer{
 
 
 <style id="gf-v12-internal">
-.internal-gate{
-  position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;
-  padding:20px;background:linear-gradient(180deg,#f6f7f9,#eceef2);
-}
-[data-theme=dark] .internal-gate{background:#0a0a0c}
-.internal-gate.hidden{display:none}
-.internal-card{
-  width:min(440px,100%);background:var(--solid);border:1px solid var(--line);
-  border-radius:28px;padding:26px;box-shadow:0 28px 90px rgba(0,0,0,.16)
-}
-.internal-brand{display:flex;align-items:center;gap:13px;margin-bottom:24px}
-.internal-brand img{width:54px;height:54px;border-radius:50%;object-fit:contain;background:#fff;border:1px solid var(--line)}
-.internal-brand h1{margin:0;font-size:24px;letter-spacing:-.035em}
-.internal-brand p{margin:3px 0 0;color:var(--muted);font-size:13px}
-.internal-field{margin-bottom:13px}
-.internal-field label{display:block;margin:0 0 6px;font-size:13px;font-weight:700}
-.internal-field input{
-  width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:14px;
-  background:var(--bg);color:var(--text);padding:13px 14px;font:inherit
-}
-.internal-login-btn{
-  width:100%;margin-top:6px;border:0;border-radius:14px;padding:13px 16px;
-  background:var(--accent);color:#fff;font-weight:700;cursor:pointer
-}
-.internal-status{margin-top:11px;color:var(--muted);font-size:13px;min-height:20px}
+
 .internal-only-badge{
   display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;
   background:rgba(52,199,89,.11);color:#248a3d;font-size:11px;font-weight:700
@@ -584,16 +560,7 @@ footer{
 </head>
 <body>
 
-<div class="internal-gate" id="internalGate">
-  <div class="internal-card">
-    <div class="internal-brand">
-      <img alt="Gospel Forum Logo" id="internalLogo">
-      <div>
-        <h1>Interner Kalender</h1>
-        <p>Gospel Forum · Termine & Planung</p>
-      </div>
-    </div>
-    <div class="internal-field">
+<div class="internal-field">
       <label for="internalEmail">E-Mail</label>
       <input id="internalEmail" type="email" autocomplete="username" placeholder="name@gospel-forum.de">
     </div>
