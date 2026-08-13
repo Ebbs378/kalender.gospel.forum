@@ -753,6 +753,7 @@ function closeEventForm(){
 }
 async function submitEventForm(ev){
   ev.preventDefault();
+  const form=ev.currentTarget;
   const status=$('#eventFormStatus'),save=$('#eventFormSave');
   if(!supabaseConfigured()){
     status.textContent='Bitte zuerst Supabase URL und Publishable Key in config.js eintragen.';
@@ -801,7 +802,7 @@ async function submitEventForm(ev){
       throw new Error(`Supabase ${res.status}: ${clean}`);
     }
     status.textContent='Gespeichert ✓ Dein Terminvorschlag wurde erfolgreich eingereicht.';
-    ev.currentTarget.reset();
+    form.reset();
     setTimeout(closeEventForm,1600);
   }catch(err){
     console.error(err);

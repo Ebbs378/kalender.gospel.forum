@@ -33,3 +33,10 @@ on conflict (user_id) do nothing;
 ## Wichtig
 Nur der Publishable Key befindet sich in `config.js`.
 Niemals einen Secret- oder service_role-Key in GitHub eintragen.
+
+
+## V11 – Safari Fix
+- korrekte Supabase Project URL eingetragen
+- Formularreferenz wird vor dem asynchronen Request gespeichert
+- `form.reset()` statt `ev.currentTarget.reset()` nach `await`
+- verhindert Safari-Fehler: `null is not an object (evaluating 'ev.currentTarget.reset')`
