@@ -1,18 +1,17 @@
-# Gospel Forum Kalender 2027 – V13 Offen + Admin
+# Gospel Forum Kalender 2027 – V14 UI + Admin
 
-## Wichtig
-Der Kalender ist wieder **ohne Anmeldung für alle sichtbar**.
+## V14
+- Monatsnavigation verständlicher beschriftet: Zurück / Heute / Weiter
+- Eventübersicht mit unterschiedlichen Kategorie-Farben
+- Events: Blau
+- Gottesdienste: Violett
+- Leitertermine: Orange
+- Ferien: Rot
+- neuer, sauber gestalteter Adminbereich
+- Admin-Login in einem richtigen Modal statt ungestylter Browserfelder
+- offene Terminvorschläge anzeigen
+- veröffentlichen / ablehnen
+- Kategorie-Farben im Adminbereich anpassen
+- Kalender bleibt öffentlich; nur Adminverwaltung benötigt Login
 
-### Für alle
-- Jahres-, Monats- und weitere Kalenderansichten
-- Kategorie-Filter
-- Events, Gottesdienste, Leitertermine und Ferien ein-/ausblenden
-- unterschiedliche Farben pro Kategorie
-- Terminvorschlag über das Formular einreichen
-- einfache Datums- und Uhrzeitfelder mit Schnellwahl
-
-### Admin
-Nur der Adminbereich benötigt weiterhin eine Supabase-Anmeldung.
-Admins können Terminvorschläge prüfen/veröffentlichen/ablehnen und Kategorien verwalten.
-
-Die bestehende Supabase-Verbindung und Datenbank bleiben erhalten.
+Hinweis: Für Veröffentlichen/Ablehnen müssen die bestehenden Supabase-Admin-RLS-Regeln den eingeloggten Admin erlauben.

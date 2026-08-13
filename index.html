@@ -557,8 +557,108 @@ footer{
 }
 </style>
 
+
+<style id="gf-v14-ui-admin">
+/* Navigation: no cryptic icons */
+.month-nav,.calendar-nav,.nav-arrows{gap:8px!important}
+.month-nav button,.calendar-nav button,.nav-arrows button{
+  min-width:auto!important;height:38px!important;padding:0 14px!important;
+  border-radius:12px!important;font-size:13px!important;font-weight:700!important
+}
+
+/* Category-colored cards in event overview */
+.event-row[data-category="event"] .datebox,
+.event-item[data-category="event"] .datebox{background:#e7f2ff!important;color:#0a84ff!important}
+.event-row[data-category="gottesdienst"] .datebox,
+.event-item[data-category="gottesdienst"] .datebox{background:#efeaff!important;color:#6e52d9!important}
+.event-row[data-category="leitung"] .datebox,
+.event-item[data-category="leitung"] .datebox{background:#fff1d8!important;color:#c87500!important}
+.event-row[data-category="ferien"] .datebox,
+.event-item[data-category="ferien"] .datebox{background:#ffe9e7!important;color:#d9382e!important}
+.event-row[data-category="offen"] .datebox,
+.event-item[data-category="offen"] .datebox{background:#e9eaed!important;color:#555!important}
+.event-row,.event-item{border-radius:16px!important;transition:.16s ease}
+.event-row:hover,.event-item:hover{background:rgba(127,127,127,.06)}
+.event-row .datebox,.event-item .datebox{border-radius:14px!important}
+
+/* Admin entry button */
+.admin-entry{
+  display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);
+  background:var(--solid);color:var(--text);border-radius:999px;padding:8px 13px;
+  font-size:12px;font-weight:750;cursor:pointer;text-decoration:none
+}
+.admin-entry:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Admin modal */
+.admin-shell{
+  position:fixed;inset:0;z-index:650;background:rgba(0,0,0,.42);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  display:none;align-items:center;justify-content:center;padding:18px
+}
+.admin-shell.open{display:flex}
+.admin-card{
+  width:min(980px,100%);max-height:92vh;overflow:auto;background:var(--solid);
+  border:1px solid var(--line);border-radius:28px;box-shadow:0 30px 100px rgba(0,0,0,.25)
+}
+.admin-head{
+  position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;
+  padding:20px 22px;border-bottom:1px solid var(--line);background:var(--solid)
+}
+.admin-head h2{margin:0;font-size:22px;letter-spacing:-.03em}
+.admin-close{border:0;background:var(--bg);color:var(--text);border-radius:50%;width:38px;height:38px;font-size:20px;cursor:pointer}
+.admin-login{padding:24px;max-width:520px;margin:auto}
+.admin-login h3{margin:0 0 5px;font-size:18px}
+.admin-login p{margin:0 0 18px;color:var(--muted);font-size:13px}
+.admin-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.admin-field label{display:block;font-size:12px;font-weight:750;margin:0 0 6px}
+.admin-field input{
+  width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:13px;
+  background:var(--bg);color:var(--text);padding:12px 13px;font:inherit
+}
+.admin-actions{display:flex;gap:9px;align-items:center;margin-top:15px}
+.admin-primary{
+  border:0;border-radius:13px;background:var(--accent);color:white;padding:11px 16px;
+  font-weight:750;cursor:pointer
+}
+.admin-secondary{
+  border:1px solid var(--line);border-radius:13px;background:var(--solid);color:var(--text);
+  padding:10px 15px;font-weight:700;cursor:pointer
+}
+.admin-status{margin-top:12px;color:var(--muted);font-size:12px;min-height:18px}
+.admin-dashboard{display:none;padding:22px}
+.admin-dashboard.visible{display:block}
+.admin-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.admin-tab{
+  border:1px solid var(--line);background:var(--solid);color:var(--text);
+  border-radius:999px;padding:8px 12px;font-weight:700;cursor:pointer
+}
+.admin-tab.active{background:var(--text);color:var(--solid)}
+.admin-panel{border:1px solid var(--line);border-radius:18px;padding:18px}
+.admin-panel h3{margin:0 0 5px}
+.admin-panel p{color:var(--muted);font-size:13px;margin:0 0 14px}
+.admin-list{display:grid;gap:10px}
+.admin-proposal{
+  display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px;border:1px solid var(--line);
+  border-radius:15px;background:var(--bg)
+}
+.admin-proposal strong{display:block;margin-bottom:3px}
+.admin-proposal small{color:var(--muted)}
+.admin-proposal-actions{display:flex;gap:7px;align-items:center}
+.admin-mini{border:1px solid var(--line);background:var(--solid);color:var(--text);border-radius:10px;padding:7px 9px;font-weight:700;cursor:pointer}
+.admin-mini.publish{background:#e8f7ed;color:#248a3d;border-color:#ccebd5}
+.admin-mini.reject{background:#fff0ef;color:#c9342d;border-color:#f4d3d0}
+.category-admin-row{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.category-color{width:34px;height:34px;border:0;border-radius:10px;padding:2px;background:transparent}
+@media(max-width:640px){
+  .admin-form-grid{grid-template-columns:1fr}
+  .admin-proposal{grid-template-columns:1fr}
+  .admin-proposal-actions{justify-content:flex-start}
+}
+</style>
+
 </head>
 <body>
+<button type="button" class="admin-entry" id="openAdmin" style="position:fixed;right:18px;bottom:18px;z-index:300">Admin</button>
 
 <div class="internal-field">
       <label for="internalEmail">E-Mail</label>
@@ -1147,5 +1247,180 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeEventForm()});
 
 let saved=localStorage.getItem('theme');if(saved)document.documentElement.dataset.theme=saved;else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.dataset.theme='dark';renderStats();render();loadCategories();loadSupabaseEvents();
 </script>
+
+<div class="admin-shell" id="adminShell" aria-hidden="true">
+  <section class="admin-card" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+    <div class="admin-head">
+      <div>
+        <h2 id="adminTitle">Adminbereich</h2>
+        <div style="color:var(--muted);font-size:12px;margin-top:3px">Terminvorschläge & Kategorien verwalten</div>
+      </div>
+      <button class="admin-close" id="closeAdmin" type="button" aria-label="Schließen">×</button>
+    </div>
+
+    <div class="admin-login" id="adminLoginView">
+      <h3>Anmelden</h3>
+      <p>Der Kalender bleibt öffentlich. Nur die Verwaltung benötigt eine Anmeldung.</p>
+      <div class="admin-form-grid">
+        <div class="admin-field">
+          <label for="adminEmail">E-Mail-Adresse</label>
+          <input id="adminEmail" type="email" autocomplete="username" placeholder="name@gospel-forum.de">
+        </div>
+        <div class="admin-field">
+          <label for="adminPassword">Passwort</label>
+          <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Passwort">
+        </div>
+      </div>
+      <div class="admin-actions">
+        <button class="admin-primary" id="adminLoginBtn" type="button">Anmelden</button>
+        <button class="admin-secondary" id="adminCancelBtn" type="button">Abbrechen</button>
+      </div>
+      <div class="admin-status" id="adminStatus"></div>
+    </div>
+
+    <div class="admin-dashboard" id="adminDashboard">
+      <div class="admin-toolbar">
+        <button class="admin-tab active" type="button" data-admin-tab="proposals">Terminvorschläge</button>
+        <button class="admin-tab" type="button" data-admin-tab="categories">Kategorien</button>
+        <button class="admin-secondary" id="adminLogoutBtn" type="button" style="margin-left:auto">Abmelden</button>
+      </div>
+
+      <div class="admin-panel" id="adminPanelProposals">
+        <h3>Offene Terminvorschläge</h3>
+        <p>Vorschläge können veröffentlicht oder abgelehnt werden.</p>
+        <div class="admin-list" id="adminProposalList"><div class="admin-status">Noch nicht geladen.</div></div>
+      </div>
+
+      <div class="admin-panel" id="adminPanelCategories" style="display:none">
+        <h3>Kategorien</h3>
+        <p>Farben der Standardkategorien. Weitere Kategorien können über Supabase ergänzt werden.</p>
+        <div id="adminCategoryList">
+          <div class="category-admin-row"><input class="category-color" type="color" value="#0a84ff" data-css-var="--cat-event"><strong>Events</strong><span>Event</span></div>
+          <div class="category-admin-row"><input class="category-color" type="color" value="#7d5cff" data-css-var="--cat-gottesdienst"><strong>Gottesdienste</strong><span>Gottesdienst</span></div>
+          <div class="category-admin-row"><input class="category-color" type="color" value="#ff9f0a" data-css-var="--cat-leitung"><strong>Leitertermine</strong><span>Leitung</span></div>
+          <div class="category-admin-row"><input class="category-color" type="color" value="#ff453a" data-css-var="--cat-ferien"><strong>Ferien</strong><span>Ferien</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<script id="gf-v14-admin-js">
+(function(){
+  const $q=(s,r=document)=>r.querySelector(s);
+  const $$q=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const shell=$q('#adminShell'), loginView=$q('#adminLoginView'), dash=$q('#adminDashboard');
+  let adminSession=null;
+
+  function openAdmin(){ shell.classList.add('open'); shell.setAttribute('aria-hidden','false'); }
+  function closeAdmin(){ shell.classList.remove('open'); shell.setAttribute('aria-hidden','true'); }
+  $q('#openAdmin')?.addEventListener('click',openAdmin);
+  $q('#closeAdmin')?.addEventListener('click',closeAdmin);
+  $q('#adminCancelBtn')?.addEventListener('click',closeAdmin);
+  shell?.addEventListener('click',e=>{if(e.target===shell)closeAdmin()});
+
+  async function login(){
+    const status=$q('#adminStatus');
+    const email=$q('#adminEmail').value.trim(), password=$q('#adminPassword').value;
+    if(!email||!password){status.textContent='Bitte E-Mail-Adresse und Passwort eingeben.';return}
+    status.textContent='Anmeldung läuft …';
+    try{
+      const res=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{
+        method:'POST',
+        headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({email,password})
+      });
+      const data=await res.json();
+      if(!res.ok||!data.access_token) throw new Error(data.error_description||'Anmeldung fehlgeschlagen');
+      adminSession=data;
+      sessionStorage.setItem('gf_admin_session',JSON.stringify(data));
+      loginView.style.display='none'; dash.classList.add('visible'); status.textContent='';
+      loadProposals();
+    }catch(err){status.textContent='Anmeldung fehlgeschlagen. Bitte Zugangsdaten prüfen.'}
+  }
+
+  async function loadProposals(){
+    const box=$q('#adminProposalList');
+    box.innerHTML='<div class="admin-status">Terminvorschläge werden geladen …</div>';
+    try{
+      const res=await fetch(SUPABASE_URL+'/rest/v1/calendar_events?select=*&status=eq.pending&order=start_date.asc',{
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+adminSession.access_token}
+      });
+      const rows=await res.json();
+      if(!res.ok) throw new Error(rows.message||'Laden fehlgeschlagen');
+      if(!rows.length){box.innerHTML='<div class="admin-status">Aktuell gibt es keine offenen Terminvorschläge.</div>';return}
+      box.innerHTML=rows.map(r=>`
+        <div class="admin-proposal">
+          <div><strong>${escapeHtml(r.title||'Ohne Titel')}</strong>
+          <small>${escapeHtml(r.start_date||'')} ${r.start_time?'· '+escapeHtml(r.start_time.slice(0,5)):''} · ${escapeHtml(r.category||'')}</small></div>
+          <div class="admin-proposal-actions">
+            <button class="admin-mini publish" data-publish="${r.id}">Veröffentlichen</button>
+            <button class="admin-mini reject" data-reject="${r.id}">Ablehnen</button>
+          </div>
+        </div>`).join('');
+      $$q('[data-publish]',box).forEach(b=>b.onclick=()=>setStatus(b.dataset.publish,'published'));
+      $$q('[data-reject]',box).forEach(b=>b.onclick=()=>setStatus(b.dataset.reject,'rejected'));
+    }catch(err){box.innerHTML='<div class="admin-status">Terminvorschläge konnten nicht geladen werden.</div>'}
+  }
+
+  async function setStatus(id,status){
+    try{
+      const res=await fetch(SUPABASE_URL+'/rest/v1/calendar_events?id=eq.'+encodeURIComponent(id),{
+        method:'PATCH',
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+adminSession.access_token,'Content-Type':'application/json'},
+        body:JSON.stringify({status})
+      });
+      if(!res.ok) throw new Error('Update fehlgeschlagen');
+      await loadProposals();
+      if(typeof loadSupabaseEvents==='function') loadSupabaseEvents();
+    }catch(err){alert('Änderung konnte nicht gespeichert werden. Bitte Admin-RLS prüfen.')}
+  }
+
+  function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+  $q('#adminLoginBtn')?.addEventListener('click',login);
+  $q('#adminPassword')?.addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+  $q('#adminLogoutBtn')?.addEventListener('click',()=>{
+    sessionStorage.removeItem('gf_admin_session');adminSession=null;dash.classList.remove('visible');loginView.style.display='block';
+  });
+
+  $$q('[data-admin-tab]').forEach(btn=>btn.addEventListener('click',()=>{
+    $$q('[data-admin-tab]').forEach(x=>x.classList.toggle('active',x===btn));
+    $q('#adminPanelProposals').style.display=btn.dataset.adminTab==='proposals'?'block':'none';
+    $q('#adminPanelCategories').style.display=btn.dataset.adminTab==='categories'?'block':'none';
+  }));
+
+  $$q('.category-color').forEach(input=>input.addEventListener('input',()=>{
+    document.documentElement.style.setProperty(input.dataset.cssVar,input.value);
+    localStorage.setItem('gf_color_'+input.dataset.cssVar,input.value);
+  }));
+  $$q('.category-color').forEach(input=>{
+    const saved=localStorage.getItem('gf_color_'+input.dataset.cssVar);
+    if(saved){input.value=saved;document.documentElement.style.setProperty(input.dataset.cssVar,saved)}
+  });
+
+  try{
+    const saved=JSON.parse(sessionStorage.getItem('gf_admin_session')||'null');
+    if(saved?.access_token){adminSession=saved;loginView.style.display='none';dash.classList.add('visible')}
+  }catch(e){}
+
+  // Color date boxes based on visible category text/classes.
+  function decorateEventRows(){
+    $$q('.event-row,.event-item').forEach(row=>{
+      const txt=row.textContent.toLowerCase();
+      let cat='event';
+      if(txt.includes('ferien')) cat='ferien';
+      else if(txt.includes('gottesdienst')||txt.includes('sunday')) cat='gottesdienst';
+      else if(txt.includes('leiter')||txt.includes('leaders')) cat='leitung';
+      row.dataset.category=cat;
+    });
+  }
+  const obs=new MutationObserver(decorateEventRows);
+  obs.observe(document.body,{childList:true,subtree:true});
+  decorateEventRows();
+})();
+</script>
+
 </body>
 </html>
