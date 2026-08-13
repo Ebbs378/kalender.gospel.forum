@@ -1,37 +1,26 @@
-# Gospel Forum Kalender 2027 – V18 Admin Final
+# Gospel Forum Kalender 2027 – V19 Kategorien Final
 
-## Adminbereich
-Der Adminbereich besitzt jetzt genau zwei Bereiche:
+## Kategorien
+Die fünf festen System-Kategorien sind:
+- Event
+- Gottesdienst
+- Leitertermin
+- Ferien
+- Termin offen
 
-### Terminvorschläge
-- offene Vorschläge laden
-- veröffentlichen
-- ablehnen
-- Statusänderung erfolgt über geschützte Supabase-RPC-Funktionen
+Alle fünf Kategorien sind im Formular „Termin vorschlagen“ auswählbar.
 
-### Konfiguration
-- vorhandene Kategorien umbenennen
-- Farbe jeder Kategorie ändern
-- Kategorie im Formular „Termin vorschlagen“ ein-/ausblenden
-- Kategorie aktivieren/deaktivieren
-- neue Kategorie mit eigener Farbe anlegen
+## Terminvorschläge
+„Terminvorschlag“ ist **keine normale Kategorie**, sondern ein Status/Filter.
+Dadurch kann ein Vorschlag z. B. gleichzeitig:
+- Kategorie = Gottesdienst
+- Status = Terminvorschlag
 
-## Wichtig nach dem Upload
-Führe in Supabase einmal die Datei `supabase-admin-v18.sql` im SQL Editor aus.
+sein.
 
-Die Migration löscht keine bestehenden Termine.
+Im Kalender gibt es deshalb zusätzlich den Filter **Terminvorschläge**.
+Dieser zeigt alle offenen Vorschläge unabhängig von ihrer eigentlichen Kategorie.
 
-## Admin-Benutzer
-Der Benutzer muss:
-1. unter Supabase → Authentication → Users existieren
-2. in `calendar_admins` eingetragen sein
-
-```sql
-insert into public.calendar_admins(user_id)
-select id from auth.users
-where lower(email)=lower('DEINE-ADMIN-EMAIL@gospel-forum.de')
-on conflict (user_id) do nothing;
-```
-
-## GitHub
-Alle Dateien aus der ZIP in den Root deines GitHub-Repositorys hochladen und die bisherigen Dateien ersetzen.
+## Supabase
+Einmal `supabase-categories-v19.sql` im SQL Editor ausführen.
+Danach sind die fünf Kategorien sicher in `calendar_categories` vorhanden.

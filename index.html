@@ -713,6 +713,15 @@ footer{
 }
 </style>
 
+
+<style id="gf-v19-category-system">
+.filter[data-filter="event"]{--filter-color:#0A84FF!important}
+.filter[data-filter="gottesdienst"]{--filter-color:#7D5CFF!important}
+.filter[data-filter="leitung"]{--filter-color:#FF9F0A!important}
+.filter[data-filter="ferien"]{--filter-color:#FF453A!important}
+.filter[data-filter="offen"]{--filter-color:#8E8E93!important}
+</style>
+
 </head>
 <body>
 <div class="page">
@@ -881,6 +890,8 @@ footer{
             <option value="event">Event</option>
             <option value="gottesdienst">Gottesdienst</option>
             <option value="leitung">Leitertermin</option>
+            <option value="ferien">Ferien</option>
+            <option value="offen">Termin offen</option>
           </select>
         </div>
         <div class="event-form-field">
@@ -927,40 +938,56 @@ let events=[
 ].map((x,id)=>({id,title:x[0],start:x[1],end:x[2],category:x[3],location:x[4],desc:x[5]}));
 let state={view:'year',month:0,weekStart:monday(new Date(2027,0,4)),search:'',selected:null,selectedDate:null};
 let activeCategories=new Set(['event','gottesdienst','leitung','ferien','offen']);
+let showOnlyProposals=false;
 let categoryColors={event:'#0A84FF',gottesdienst:'#7D5CFF',leitung:'#FF9F0A',ferien:'#FF453A',offen:'#8E8E93'};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-function date(s){let[a,t]=s.split('T'),[y,m,d]=a.split('-').map(Number),v=new Date(y,m-1,d);if(t){let[h,n]=t.split(':').map(Number);v.setHours(h,n)}return v}function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}function monday(d){d=new Date(d);d.setDate(d.getDate()-(d.getDay()+6)%7);d.setHours(0,0,0,0);return d}function spans(e,d){let x=iso(d),a=e.start.split('T')[0],b=(e.end||e.start).split('T')[0];return x>=a&&x<=b}function on(d){return events.filter(e=>activeCategories.has(e.category)&&spans(e,d))}let categoryNames={event:'Event',ferien:'Ferien',leitung:'Leitertermin',gottesdienst:'Gottesdienst',offen:'Termin offen'};function label(c){return categoryNames[c]||c}
+function date(s){let[a,t]=s.split('T'),[y,m,d]=a.split('-').map(Number),v=new Date(y,m-1,d);if(t){let[h,n]=t.split(':').map(Number);v.setHours(h,n)}return v}function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}function monday(d){d=new Date(d);d.setDate(d.getDate()-(d.getDay()+6)%7);d.setHours(0,0,0,0);return d}function spans(e,d){let x=iso(d),a=e.start.split('T')[0],b=(e.end||e.start).split('T')[0];return x>=a&&x<=b}function on(d){return events.filter(e=>activeCategories.has(e.category)&&(!showOnlyProposals||e.status==='pending')&&spans(e,d))}let categoryNames={event:'Event',ferien:'Ferien',leitung:'Leitertermin',gottesdienst:'Gottesdienst',offen:'Termin offen'};function label(c){return categoryNames[c]||c}
 function categoryColor(c){return categoryColors[c]||'#0A84FF'}
 function renderCategoryFilters(){
   const box=document.querySelector('.filters');
   if(!box)return;
-  const keys=[...new Set([...Object.keys(categoryNames),...dbCategories.map(c=>c.slug)])].filter(k=>k!=='offen'||events.some(e=>e.category==='offen'));
+  const systemKeys=['event','gottesdienst','leitung','ferien','offen'];
+  const dbExtra=dbCategories.map(c=>c.slug).filter(k=>!systemKeys.includes(k));
+  const keys=[...systemKeys,...dbExtra];
+
   box.innerHTML='';
+
   const all=document.createElement('button');
-  all.className='filter'+(keys.every(k=>activeCategories.has(k))?' active':'');
+  all.className='filter'+(!showOnlyProposals&&keys.every(k=>activeCategories.has(k))?' active':'');
   all.textContent='Alle';
-  all.dataset.all='1';
   all.style.setProperty('--filter-color','#1c1c1e');
   all.addEventListener('click',()=>{
-    const allOn=keys.every(k=>activeCategories.has(k));
-    if(allOn) keys.forEach(k=>activeCategories.delete(k)); else keys.forEach(k=>activeCategories.add(k));
+    showOnlyProposals=false;
+    keys.forEach(k=>activeCategories.add(k));
     renderCategoryFilters();render();
   });
   box.append(all);
+
   keys.forEach(k=>{
     const b=document.createElement('button');
-    b.className='filter'+(activeCategories.has(k)?' active':'');
+    b.className='filter'+(!showOnlyProposals&&activeCategories.has(k)?' active':'');
     b.textContent=label(k);
     b.dataset.filter=k;
     b.style.setProperty('--filter-color',categoryColor(k));
     b.addEventListener('click',()=>{
+      showOnlyProposals=false;
       if(activeCategories.has(k))activeCategories.delete(k);else activeCategories.add(k);
       renderCategoryFilters();render();
     });
     box.append(b);
   });
+
+  const proposal=document.createElement('button');
+  proposal.className='filter'+(showOnlyProposals?' active':'');
+  proposal.textContent='Terminvorschläge';
+  proposal.style.setProperty('--filter-color','#FF9F0A');
+  proposal.addEventListener('click',()=>{
+    showOnlyProposals=!showOnlyProposals;
+    renderCategoryFilters();render();
+  });
+  box.append(proposal);
 }function fmtDate(d){return d.toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'})}function fmt(e){let a=date(e.start),b=e.end?date(e.end):null,s=fmtDate(a);if(e.start.includes('T'))s+=', '+a.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr';if(b){if(e.end.split('T')[0]!==e.start.split('T')[0])s+=' – '+fmtDate(b);if(e.end.includes('T'))s+=', '+b.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr'}return s}
-function filtered(){return events.filter(e=>activeCategories.has(e.category)&&(e.title+' '+e.desc+' '+e.location).toLowerCase().includes(state.search.toLowerCase())).sort((a,b)=>date(a.start)-date(b.start))}
+function filtered(){return events.filter(e=>activeCategories.has(e.category)&&(!showOnlyProposals||e.status==='pending')&&(e.title+' '+e.desc+' '+e.location).toLowerCase().includes(state.search.toLowerCase())).sort((a,b)=>date(a.start)-date(b.start))}
 function renderStats(){let counts={all:events.length,event:0,gottesdienst:0,leitung:0};events.forEach(e=>{if(counts[e.category]!==undefined)counts[e.category]++});$('#stats').innerHTML=`<div class="stat glass"><small>Alle Einträge</small><strong>${counts.all}</strong><span>inklusive Ferien</span></div><div class="stat glass"><small>Events</small><strong>${counts.event}</strong><span>Konferenzen & besondere Termine</span></div><div class="stat glass"><small>Gottesdienste</small><strong>${counts.gottesdienst}</strong><span>Feiern & Sunday Events</span></div><div class="stat glass"><small>Leiter</small><strong>${counts.leitung}</strong><span>Zooms, Freizeiten & Meetings</span></div>`}
 function renderYear(){let r=$('#yearGrid');r.innerHTML='';months.forEach((name,m)=>{let f=new Date(2027,m,1),off=(f.getDay()+6)%7,n=new Date(2027,m+1,0).getDate(),box=document.createElement('div');box.className='mini';box.innerHTML=`<div class="mini-head"><strong>${name}</strong><button>Monat öffnen</button></div><div class="weeklabels">${['M','D','M','D','F','S','S'].map(x=>`<span>${x}</span>`).join('')}</div><div class="minidays"></div>`;box.querySelector('button').addEventListener('click',()=>{state.month=m;state.view='month';render()});let g=box.querySelector('.minidays');for(let i=0;i<off;i++)g.append(document.createElement('span'));for(let d=1;d<=n;d++){let dt=new Date(2027,m,d),ev=on(dt),b=document.createElement('button');b.className='miniday'+(ev.length?' has':'')+(ev.some(x=>x.category==='ferien')?' holiday':'')+(ev.some(x=>x.status==='pending')?' pending-day':'')+(state.selectedDate===iso(dt)?' selected':'');b.textContent=d;b.title=ev.map(x=>x.title).join(', ');b.addEventListener('click',()=>{state.month=m;state.selectedDate=iso(dt);state.view='month';render()});g.append(b)}r.append(box)})}
 function renderMonth(){let r=$('#monthGrid');r.innerHTML='';let f=new Date(2027,state.month,1),off=(f.getDay()+6)%7,start=new Date(2027,state.month,1-off);for(let i=0;i<42;i++){let d=new Date(start);d.setDate(start.getDate()+i);let c=document.createElement('div');c.className='cell'+(d.getMonth()!==state.month?' out':'')+(state.selectedDate===iso(d)?' selected':'');c.innerHTML=`<div class="num">${d.getDate()}</div>`;on(d).slice(0,4).forEach(e=>{let b=document.createElement('button');b.className='chip '+e.category+(e.status==='pending'?' pending':'');b.textContent=(e.status==='pending'?'Vorschlag · ':'')+e.title;b.addEventListener('click',()=>selectEvent(e.id,true));c.append(b)});if(on(d).length>4)c.insertAdjacentHTML('beforeend',`<small style="color:var(--muted)">+${on(d).length-4} weitere</small>`);c.addEventListener('click',ev=>{if(ev.target===c||ev.target.classList.contains('num')){state.selectedDate=iso(d);renderMonth()}});r.append(c)}}
@@ -1158,9 +1185,15 @@ async function loadCategories(){
     const select=$('#evCategory');
     if(select){
       const allowed=dbCategories.filter(c=>c.allow_proposals);
-      if(allowed.length){
-        select.innerHTML=allowed.map(c=>`<option value="${c.slug}">${escapeAdmin(c.name)}</option>`).join('');
-      }
+      const fallback=[
+        {slug:'event',name:'Event'},
+        {slug:'gottesdienst',name:'Gottesdienst'},
+        {slug:'leitung',name:'Leitertermin'},
+        {slug:'ferien',name:'Ferien'},
+        {slug:'offen',name:'Termin offen'}
+      ];
+      const source=allowed.length?allowed:fallback;
+      select.innerHTML=source.map(c=>`<option value="${c.slug}">${escapeAdmin(c.name)}</option>`).join('');
     }
   }catch(err){
     console.warn('Kategorien konnten nicht geladen werden',err);
